@@ -71,7 +71,7 @@ gulp.task('serve', function(done) {
 
 // Default task
 gulp.task('default', gulp.series('clean', gulp.parallel(defaultTasks), 'serve', function watcher(done) {
-		gulp.watch(paths.src.html + '/**/*', gulp.parallel(['nunjucks'/*,'copyData'*/]));
+		gulp.watch(paths.src.html + '/**/*', gulp.parallel(['nunjucks', 'copyViews'/*,'copyData'*/]));
 		gulp.watch(paths.src.styles, gulp.parallel('styles'));
 		gulp.watch(paths.src.js, gulp.parallel('js'));
 		gulp.watch(paths.src.img, gulp.parallel('images'));
