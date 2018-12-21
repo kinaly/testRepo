@@ -28,7 +28,7 @@ var paths = {
 	}
 }
 
-var defaultTasks = ['styles', 'js', 'copyLib', 'images', 'nunjucks'/*, 'copyData'*/];
+var defaultTasks = ['styles', 'js', 'copyLib', 'images', 'nunjucks', 'copyViews' /*, 'copyData'*/];
 
 
 
@@ -45,6 +45,8 @@ gulp.task('images', require('./gulpfile-tasks/images')(gulp, plugins, paths));
 gulp.task('fonts', require('./gulpfile-tasks/fonts')(gulp, paths));
 
 gulp.task('nunjucks', require('./gulpfile-tasks/html')(gulp, plugins, paths, fs));
+
+gulp.task('copyViews', require('./gulpfile-tasks/copyNunjucksViews')(gulp, plugins, paths));
 
 
 // not in the default tasks
