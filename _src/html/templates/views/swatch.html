@@ -1,4 +1,6 @@
-<div style="background-color: {{swatch.hex}};">
-	<p>{{swatch.hex}} - {{swatch.hue}}</p>
+<div class="swatch__bg" style="background-color: {{swatch.hex}};">
+	<p class="switchable-info__item -hex">{{swatch.hex}}</p>
+	<p class="switchable-info__item -hsl">hsl({{swatch.hue}}, {{swatch.saturation}}, {{swatch.luminosity}})</p>
+	<p class="switchable-info__item -hsv">hsv({{swatch.hue2}},{{swatch.saturation2}}, {{swatch.value}})</p>
 	<p class="swatch__contrast">{{swatch.contrastToWhite}}</p>
 </div>

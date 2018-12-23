@@ -405,6 +405,9 @@ html {
 /* ----------------------------- */
 /* ==components                  */
 /* ----------------------------- */
+.main-content {
+  padding: 0.5em;
+}
 /* -------------------------------------- */
 /* ==for the dirty code                   */
 /* -------------------------------------- */
@@ -412,5 +415,15 @@ html {
 /* ==utility classes                      */
 /* -------------------------------------- */
 /* the only place where the use of !important may be tolerated */
+/* Lists */
+.u-unstyled-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+/* Display */
+.u-inbl {
+  display: inline-block;
+}
 
 /*# sourceMappingURL=../css/styles.css.map */
