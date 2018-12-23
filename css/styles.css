@@ -405,8 +405,11 @@ html {
 /* ----------------------------- */
 /* ==components                  */
 /* ----------------------------- */
-.main-content {
-  padding: 0.5em;
+.main-section {
+  padding: 1em;
+}
+.main-section + .main-section:not(:last-child) {
+  margin-bottom: 1em;
 }
 /* -------------------------------------- */
 /* ==for the dirty code                   */
@@ -415,6 +418,10 @@ html {
 /* ==utility classes                      */
 /* -------------------------------------- */
 /* the only place where the use of !important may be tolerated */
+/* Spacing */
+.u-mb-medium {
+  margin-bottom: 1em;
+}
 /* Lists */
 .u-unstyled-list {
   list-style-type: none;

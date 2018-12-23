@@ -317,15 +317,13 @@ displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, 'contrastToWhite
 
 // displayHueMatrixIn(hueMatrixes[1], colorInputs[0].value, 20, 50);
 
-
+var coloredContainer = document.querySelectorAll('.colour-study')[0];
 var comparisonBox = document.querySelectorAll('.comparison-box')[0];
-comparisonBox.style.backgroundColor = colorInputs[0].value;
+coloredContainer.style.backgroundColor = colorInputs[0].value;
 
 colorInputs[0].addEventListener('change', function(e) {
 	if (chroma.valid(this.value)) {
-		comparisonBox.style.backgroundColor = colorInputs[0].value;
-		
-		displayCustomHueScaleIn(toneScales[0], this.value);
+		coloredContainer.style.backgroundColor = colorInputs[0].value;
 
 		displayPartialHueMatrixIn(hueMatrixes[0], this.value, 'contrastToWhite', [4.2,5.2]);
 
