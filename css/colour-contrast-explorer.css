@@ -461,6 +461,7 @@ html {
 }
 .swatch__bg {
   padding: 0.5em;
+  height: 100%;
   text-align: center;
 }
 .hue-matrix {
@@ -469,6 +470,9 @@ html {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 .hue-matrix__swatch {
   font-size: 80%;
