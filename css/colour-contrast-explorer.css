@@ -436,6 +436,7 @@ html {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
+  margin-bottom: 1em;
 }
 .tone-scale__swatch {
   -webkit-box-flex: 1;
@@ -476,6 +477,7 @@ html {
 }
 .hue-matrix__swatch {
   font-size: 80%;
+  cursor: pointer;
 }
 /* -------------------------------------- */
 /* ==for the dirty code                   */

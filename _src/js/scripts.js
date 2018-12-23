@@ -278,6 +278,14 @@ function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange)
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
+				swatch.dataset.hex = currentRow[i].hex;
+
+				// should probably be in a function
+				swatch.addEventListener('click', function(e) {
+					var scale = addMarkup('div', 'tone-scale', null);
+					comparisonBox.appendChild(scale);
+					displayCustomHueScaleIn(scale, this.dataset.hex);
+				});
 			}
 		}
 
@@ -292,43 +300,35 @@ function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange)
 
 // Initialise stuff
 // ////////////////
-displayToneScaleIn(toneScales[0], colorInputs[0].value);
-
-displayCustomHueScaleIn(toneScales[1], colorInputs[0].value);
-
-displayLuminosityScaleIn(toneScales[2], colorInputs[0].value);
+// displayCustomHueScaleIn(toneScales[0], colorInputs[0].value);
 
 
 // reference
-var referenceColours = ['#017ea7', '#548200', '#dd3402', '#268464', '#757575'];
-var referenceContainer = document.querySelectorAll('.reference')[0];
+// var referenceColours = ['#017ea7', '#548200', '#dd3402', '#268464', '#757575'];
+// var referenceContainer = document.querySelectorAll('.reference')[0];
 
-for (var i = 0; i < referenceColours.length; i++) {
-	var toneScale = addMarkup('div', 'tone-scale', null);
-	referenceContainer.appendChild(toneScale);
-	displayToneScaleIn(toneScale, referenceColours[i]);
-
-	var customHueScale = addMarkup('div', 'tone-scale', null);
-	referenceContainer.appendChild(customHueScale);
-	displayCustomHueScaleIn(customHueScale, referenceColours[i]);
-
-	var luminosityScale = addMarkup('div', 'tone-scale', null);
-	referenceContainer.appendChild(luminosityScale);
-	displayLuminosityScaleIn(luminosityScale, referenceColours[i]);
-
-}
+// for (var i = 0; i < referenceColours.length; i++) {
+// 	var customHueScale = addMarkup('div', 'tone-scale', null);
+// 	referenceContainer.appendChild(customHueScale);
+// 	displayCustomHueScaleIn(customHueScale, referenceColours[i]);
+// }
 
 displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, 'contrastToWhite', [4.2,5.2]);
 
 // displayHueMatrixIn(hueMatrixes[1], colorInputs[0].value, 20, 50);
 
 
+var comparisonBox = document.querySelectorAll('.comparison-box')[0];
+comparisonBox.style.backgroundColor = colorInputs[0].value;
+
 colorInputs[0].addEventListener('change', function(e) {
 	if (chroma.valid(this.value)) {
-		displayToneScaleIn(toneScales[0], this.value);
-		displayCustomHueScaleIn(toneScales[1], this.value);
-		displayLuminosityScaleIn(toneScales[2], this.value);
-		// displayHueMatrixIn(hueMatrixes[0], this.value, 10, 20);
-		displayPartialHueMatrixIn(hueMatrixes[0], this.value, 'contrastToWhite', [4.2,5.2])
+		comparisonBox.style.backgroundColor = colorInputs[0].value;
+		
+		displayCustomHueScaleIn(toneScales[0], this.value);
+
+		displayPartialHueMatrixIn(hueMatrixes[0], this.value, 'contrastToWhite', [4.2,5.2]);
+
+		comparisonBox.innerHTML = '';
 	}
 });

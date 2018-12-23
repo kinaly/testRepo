@@ -12,9 +12,9 @@
   
 <main class="main-content">
 	<!-- Inputs must stay at the top level -->
-	<input type="radio" name="colour-info-switch" id="colour-info-switch__hex" class="switchable-info__input">
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__hex" class="switchable-info__input" checked="checked">
 
-	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsl" class="switchable-info__input" checked="checked">
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsl" class="switchable-info__input">
 
 	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsv" class="switchable-info__input">
 	
@@ -26,14 +26,14 @@
 
 	<div class="colour-study switchable-info__input-sibling">
 	  <input type="color" class="color-input" value="#e4bc4c">
-		<div class="tone-scale">Hue scale</div>
-		<div class="tone-scale">Custom Scale</div>
-		<div class="tone-scale">Luminosity scale</div>
 		<div class="hue-matrix"></div>
+		<!-- <div class="tone-scale">Custom Scale</div> -->
 	</div>
 
+	<div class="comparison-box switchable-info__input-sibling"></div>
 
-	<div class="reference switchable-info__input-sibling"></div>
+
+	<!-- <div class="reference switchable-info__input-sibling"></div> -->
 
 	<div class="hue-matrix switchable-info__input-sibling"></div>
 
@@ -47,7 +47,6 @@
 	<!-- Nunjucks -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/nunjucks/3.0.1/nunjucks-slim.min.js" type="text/javascript"></script>
 	<script src="../views/swatch.js"></script>
-	<script src="../views/mini-swatch.js"></script>
 	
 	<!-- Scripts -->
 	<script src="../js/scripts.js" type="text/javascript"></script>
