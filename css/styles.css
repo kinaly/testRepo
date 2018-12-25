@@ -405,11 +405,8 @@ html {
 /* ----------------------------- */
 /* ==components                  */
 /* ----------------------------- */
-.main-section {
+.padded-section {
   padding: 1em;
-}
-.main-section + .main-section:not(:last-child) {
-  margin-bottom: 1em;
 }
 /* -------------------------------------- */
 /* ==for the dirty code                   */

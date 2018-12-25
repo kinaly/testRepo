@@ -124,7 +124,7 @@ function displayCustomHueScaleIn(parent, colour) {
 	}
 
 	var mainSwatch = insertSwatch(getSwatchDetails(colour), parent);
-	mainSwatch.classList.add('tone-scale__swatch');
+	mainSwatch.classList.add('tone-scale__swatch','-main');
 
 	for (var i = 0; i < 4; i++) {
 		var lum = colourLuminosity - (i+1) * darkStep;
@@ -139,42 +139,29 @@ function displayCustomHueScaleIn(parent, colour) {
 	}
 
 	parent.dataset.colour = colour;
+	parent.style.backgroundColor = colorInputs[0].value;
 
+	
 	var remove = addMarkup('div', 'tone-scale__remove', 'x');
 	parent.appendChild(remove);
-}
 
-
-
-// display a hue matrix
-function displayHueMatrixIn(parent, colour, saturationSteps, luminositySteps) {
-
-	var hue = getSwatchDetails(colour).hslHue;
-	
-	parent.innerHTML = '';
-			
-	for (var j = 1; j < (luminositySteps); j++) {
-		var luminosity = 100 / luminositySteps * j;
-		for (var i = 1; i < (saturationSteps + 1); i++) {
-			var saturation = 100 / saturationSteps * i;
-			var newColour = 'hsl(' + hue + ',' + saturation + '%,' + luminosity +'%)';
-			var swatchDetails = getSwatchDetails(newColour);
-			var swatch = insertSwatch(swatchDetails, parent);
-
-			swatch.classList.add('hue-matrix__swatch');
-			swatch.style.width = (100 / (saturationSteps)) + '%';
-		}	
-	}
+	// a bit brittle as it relies on HTML structure
+	remove.addEventListener('click', function(e) {
+		var el = this.parentNode;
+		el.parentNode.removeChild(el);
+	});
 }
 
 
 
 // display a reduced hue matrix based on a range of contrast ratio between a colour based on main colour and white
-function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange) {
+function displayPartialHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
-	var hue = getSwatchDetails(mainColour).hslHue;
+	var hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
+	
 	var saturation = getSwatchDetails(mainColour).hslSaturation;
 	var saturationRange = [saturation - 5, saturation + 10 <= 100 ? saturation + 10 : 100];
+
 
 	var currentRow = [];
 
@@ -184,15 +171,21 @@ function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange)
 		for (var sat = saturationRange[0]; sat < saturationRange[1]; sat++) {
 			var col = 'hsl(' + hue + ',' + sat + '%,' + lum +'%)';
 			currentRow.push(getSwatchDetails(col));
+			
 		}
 
+
 		var match = currentRow.filter(function(item) {
-			return item[parameter] > contrastRange[0] && item[parameter] < contrastRange[1];
+			var contrast = getContrast(item.display.hex, secondaryColour);
+			return contrast > contrastRange[0] && contrast < contrastRange[1];
 		});
 
 		if (match.length > 0) {
 			for (var i = 0; i < currentRow.length; i++) {
 				var swatch = insertSwatch(currentRow[i], parent);
+
+				var constrastScore = swatch.querySelectorAll('.swatch__contrast')[0];
+				constrastScore.innerHTML = getContrast(currentRow[i].display.hex, colorInputs[1].value);
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
@@ -201,13 +194,32 @@ function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange)
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
 					var scale = addMarkup('div', 'tone-scale', null);
-					comparisonBox.appendChild(scale);
+					if (hueScalesBox.childNodes.length > 0) {
+						hueScalesBox.insertBefore(scale, hueScalesBox.childNodes[0]);
+					} else {
+						hueScalesBox.appendChild(scale);
+					}
 					displayCustomHueScaleIn(scale, this.dataset.hex);
 				});
 			}
 		}
 
 		currentRow = [];
+	}
+}
+
+
+
+// set the contrast score between both inputs
+// could totally be more re-usable
+function setInputsContrast() {
+	var contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
+	inputsContrast.innerHTML = contrast;
+
+	if (contrast > 4.6) {
+		inputsContrast.classList.add('-reverse');
+	} else {
+		inputsContrast.classList.remove('-reverse');
 	}
 }
 
@@ -221,21 +233,32 @@ function displayPartialHueMatrixIn(parent, mainColour, parameter, contrastRange)
 var colorInputs = document.querySelectorAll('.color-input');
 var hueMatrixes = document.querySelectorAll('.hue-matrix');
 var coloredContainer = document.querySelectorAll('.colour-study')[0];
-var comparisonBox = document.querySelectorAll('.comparison-box')[0];
+var hueScalesBox = document.querySelectorAll('.hue-scales')[0];
+var inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
+var drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 
-displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, 'contrastToWhite', [4.2,5.2]);
+for (var i = 0; i < drawerTriggers.length; i++) {
+	addDrawerEvent(drawerTriggers[i]);
+}
+
+displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
 coloredContainer.style.backgroundColor = colorInputs[0].value;
+
+setInputsContrast();
 
 
 
 // Input colour event
-colorInputs[0].addEventListener('change', function(e) {
-	if (chroma.valid(this.value)) {
-		coloredContainer.style.backgroundColor = colorInputs[0].value;
+for (var i = 0; i < colorInputs.length; i++) {
+	colorInputs[i].addEventListener('change', function(e) {
+		if (chroma.valid(this.value)) {
+			coloredContainer.style.backgroundColor = colorInputs[0].value;
 
-		displayPartialHueMatrixIn(hueMatrixes[0], this.value, 'contrastToWhite', [4.2,5.2]);
+			displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
-		comparisonBox.innerHTML = '';
-	}
-});
+			setInputsContrast();
+
+		}
+	});
+}

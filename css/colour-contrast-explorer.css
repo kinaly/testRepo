@@ -402,11 +402,9 @@ html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.main-section {
+.padded-section {
   padding: 1em;
 }
-.main-section + .main-section:not(:last-child) {
-  margin-bottom: 1em;
 }
 .switchable-info__input {
   position: absolute;
@@ -418,7 +416,8 @@ html {
 }
 .switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling .switchable-info__item.-hex,
 .switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling .switchable-info__item.-hsl,
-.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling .switchable-info__item.-hsv {
+.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling .switchable-info__item.-hsv,
+.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling .switchable-info__item.-rgb {
   display: block;
 }
 .switchable-info__label {
@@ -426,38 +425,34 @@ html {
   padding: 0.25em 1em;
   background-color: #d3e9f0;
   border-radius: 3px;
-  color: #515198;
+  color: #286578;
+  cursor: pointer;
 }
 .switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hex"],
 .switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsl"],
-.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsv"] {
+.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsv"],
+.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__rgb"] {
   background-color: #e4bc4c;
-  color: #fdf8c0;
+  color: #1e1705;
 }
-.tone-scale {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-.tone-scale:not(:last-child) {
-  margin-bottom: 1em;
-}
-.tone-scale__swatch {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 0px;
-          flex: 1 0 0;
+.inputs-contrast-score.-reverse {
+  color: #fff;
 }
 .swatch {
   position: relative;
   z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .swatch.-reverse {
   color: #fff;
-}
-.swatch.-highlight {
-  z-index: 10;
-  outline: 1px solid white;
 }
 .swatch.-mini {
   font-size: 80%;
@@ -465,10 +460,60 @@ html {
 .swatch p {
   margin: 0;
 }
-.swatch__bg {
+.swatch__info {
+  position: relative;
+  z-index: 2;
   padding: 0.5em;
-  height: 100%;
   text-align: center;
+}
+.swatch__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.swatch.-highlight .swatch__bg {
+  background-image: -o-linear-gradient(315deg, white, white 0.5em, transparent 0.5em, transparent);
+  background-image: linear-gradient(135deg, white, white 0.5em, transparent 0.5em, transparent);
+}
+.colour-scale {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  padding: 1em;
+}
+.colour-scale__swatch {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 0px;
+          flex: 1 0 0;
+}
+.colour-scale__swatch.-main {
+  -webkit-box-flex: 1.25;
+      -ms-flex-positive: 1.25;
+          flex-grow: 1.25;
+}
+.colour-scale__remove {
+  -ms-flex-item-align: center;
+      align-self: center;
+  margin: 1em;
+  padding: 0.5em 0.8125em;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  background-color: #fff;
+}
+.colour-scale__remove:hover {
+  background-color: #a83e3c;
+  color: #fff;
+}
+.colour-scales-options {
+  display: none;
+  text-align: center;
+}
+.colour-scales:not(:empty) ~ .colour-scales-options {
+  display: block;
 }
 .hue-matrix {
   display: -webkit-box;
@@ -486,6 +531,18 @@ html {
 .hue-matrix__swatch {
   font-size: 80%;
   cursor: pointer;
+  -webkit-transition: -webkit-transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  -o-transition: transform 200ms ease-in-out, transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.hue-matrix__swatch:hover {
+  -webkit-transform: scale(1.25);
+      -ms-transform: scale(1.25);
+          transform: scale(1.25);
+  z-index: 200;
+  outline: 1px solid #fff;
 }
 /* -------------------------------------- */
 /* ==for the dirty code                   */

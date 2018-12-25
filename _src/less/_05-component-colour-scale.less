@@ -1,0 +1,44 @@
+.colour-scale {
+	display: flex;
+	width: 100%;
+	
+	padding: 1em;
+}
+
+.colour-scale__swatch {
+	flex: 1 0 0;
+	
+	&.-main {
+		flex-grow: 1.25;
+	}
+}
+
+.colour-scale__remove {
+	align-self: center;
+	
+	margin: 1em;
+	padding: 0.5em 0.8125em;
+
+	cursor: pointer;
+	
+	border-radius: 50%;
+	border: 1px solid #fff;
+	background-color: #fff;
+	
+	&:hover {
+		background-color: #a83e3c;
+		color: #fff;
+	}
+}
+
+
+
+.colour-scales-options {
+	display: none;
+	
+	text-align: center;
+	
+	.colour-scales:not(:empty) ~ & {
+		display: block;
+	}
+}

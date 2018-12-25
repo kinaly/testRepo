@@ -1,15 +1,13 @@
 .swatch {
 	position: relative;
 	z-index: 1;
-	// color: #474747;
-	
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	&.-reverse {
 		color: #fff;
-	}
-
-	&.-highlight {
-		z-index: 10;
-		outline: 1px solid white;
 	}
 
 	&.-mini {
@@ -21,10 +19,23 @@
 	}
 }
 
-.swatch__bg {
+.swatch__info {
+	position: relative;
+	z-index: 2;
+
 	padding: 0.5em;
 	
-	height: 100%;
-	
 	text-align: center;
+}
+
+.swatch__bg {
+	position: absolute;
+	top: 0; left: 0;
+	
+	width: 100%;
+	height: 100%;	
+	
+	.swatch.-highlight & {
+		background-image: linear-gradient(135deg, white, white .5em, transparent .5em, transparent);
+	}
 }
