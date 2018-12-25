@@ -73,6 +73,44 @@ function getSwatchDetails(colour) {
 
 
 
+// Create an array for a colour scale
+function colourScaleArray(colour) {
+	var colourScale = [];
+	
+	var colourLuminosity = getSwatchDetails(colour).hslLuminosity;
+
+	var lightStep = (100 - colourLuminosity) / 5;
+	var darkStep = colourLuminosity / 5;
+
+	var lightScale = newChromaScale(colour, '#ffffff', 6);
+	var darkScale = newChromaScale(colour, '#000000', 6);
+
+	for (var i = 4 - 1; i >= 0; i--) {
+		var lum = colourLuminosity + (i+1) * lightStep;
+		var col1 = chroma(colour).set('hsl.l', lum/100);
+		var col2 = lightScale[i+1];
+
+		var col = chroma.mix(col1, col2, 0.2, 'hsl');
+
+		colourScale.push(col);
+	}
+
+	colourScale.push(chroma(colour));
+
+	for (var i = 0; i < 4; i++) {
+		var lum = colourLuminosity - (i+1) * darkStep;
+		var col1 = chroma(colour).set('hsl.l', lum/100);
+		var col2 = darkScale[i+1];
+
+		var col = chroma.mix(col1, col2, 0.2, 'hsl');
+		colourScale.push(col);
+	}
+
+	return colourScale;
+}
+
+
+
 
 
 
@@ -141,49 +179,51 @@ function insertSwatch(swatchDetails, container) {
 
 
 
-// display a custom hue scale
-function displayHueScaleIn(parent, colour) {
-	var colourLuminosity = getSwatchDetails(colour).hslLuminosity;
+// insert a radio swatch
+function insertRadioSwatch(colour, name) {
+	let swatchInfo = getSwatchDetails(colour);
+	swatchInfo['radioName'] = name;
 
-	var lightStep = (100 - colourLuminosity) / 5;
-	var darkStep = colourLuminosity / 5;
+	let radioSwatchTemplate = env.render('swatch-radio.html', {swatch: swatchInfo});
 
-	var lightScale = newChromaScale(colour, '#ffffff', 6);
-	var darkScale = newChromaScale(colour, '#000000', 6);
+	return radioSwatchTemplate;
+}
 
-	parent.innerHTML = '';
 
-	for (var i = 4 - 1; i >= 0; i--) {
-		var lum = colourLuminosity + (i+1) * lightStep;
-		var col1 = chroma(colour).set('hsl.l', lum/100);
-		var col2 = lightScale[i+1];
 
-		var col = chroma.mix(col1, col2, 0.2, 'hsl');
-
-		var swatchDetails = getSwatchDetails(col);
-		var swatch = insertSwatch(swatchDetails, parent);
-		swatch.classList.add('colour-scale__swatch');
+// insert a colour card
+function insertColourCard(bgColour, textColour) {
+	let colourCardInfo = {
+		'bgColour': bgColour,
+		'textColour': textColour,
+		'contrastRatio': getContrast(bgColour, textColour)
 	}
 
-	var mainSwatch = insertSwatch(getSwatchDetails(colour), parent);
-	mainSwatch.classList.add('colour-scale__swatch','-main');
+	let colourCardTemplate = env.render('colour-card.html', {colourCard: colourCardInfo});
 
-	for (var i = 0; i < 4; i++) {
-		var lum = colourLuminosity - (i+1) * darkStep;
-		var col1 = chroma(colour).set('hsl.l', lum/100);
-		var col2 = darkScale[i+1];
+	return colourCardTemplate;
+}
 
-		var col = chroma.mix(col1, col2, 0.2, 'hsl');
 
-		var swatchDetails = getSwatchDetails(col);
-		var swatch = insertSwatch(swatchDetails, parent);
+
+// display a custom hue scale
+function displayScaleIn(parent, colour) {
+	parent.innerHTML = '';
+
+	var scale = colourScaleArray(colour);
+
+	for (var i = 0; i < scale.length; i++) {
+		var swatch = insertSwatch(getSwatchDetails(scale[i]), parent);
 		swatch.classList.add('colour-scale__swatch');
+
+		if (i == 4) {
+			swatch.classList.add('-main');
+		}
 	}
 
 	parent.dataset.colour = colour;
 	parent.style.backgroundColor = colorInputs[0].value;
 
-	
 	var remove = addMarkup('div', 'colour-scale__remove', 'x');
 	parent.appendChild(remove);
 
@@ -241,7 +281,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 					} else {
 						colourScalesBox.appendChild(scale);
 					}
-					displayHueScaleIn(scale, this.dataset.hex);
+					displayScaleIn(scale, this.dataset.hex);
 				});
 			}
 		}
@@ -267,6 +307,79 @@ function setInputsContrast() {
 
 
 
+// set up the colour switches in cards drawer
+function setupColourSwitch() {
+	var scales = colourScalesBox.childNodes;
+
+	var colours = []
+
+	var bgSwitch = cardsPage.querySelector('.colour-cards__bg-switch');
+	var colourSwitch = cardsPage.querySelector('.colour-cards__colour-switch');
+
+	for (var i = 0; i < scales.length; i++) {
+		var colourArray = colourScaleArray(scales[i].dataset.colour);
+
+		colours.push(colourArray);
+	}
+
+
+	bgSwitch.innerHTML = '';
+	colourSwitch.innerHTML = '';
+
+	for (var i = 0; i < colours.length; i++) {
+		var radioSwatchBg = insertRadioSwatch(colours[i][4], 'bgCards');
+		var radioSwatchColour = insertRadioSwatch(colours[i][4], 'colourCards');
+		bgSwitch.innerHTML = bgSwitch.innerHTML + radioSwatchBg;
+		colourSwitch.innerHTML = colourSwitch.innerHTML + radioSwatchColour;
+	}
+
+	bgSwitch.querySelector('.swatch-radio__input').checked = true;
+	colourSwitch.querySelector('.swatch-radio__input').checked = true;
+
+	var inputs = cardsPage.querySelectorAll('.swatch-radio__input');
+	for (var i = 0; i < inputs.length; i++) {
+		inputs[i].addEventListener('change', function(e) {
+			setupCards();
+		});
+	}
+}
+
+
+
+// set up the cards
+function setupCards() {
+	var box = cardsPage.querySelector('.colour-cards__box');
+	box.innerHTML = '';
+
+	var inputs = [].slice.call(cardsPage.querySelectorAll('.swatch-radio__input'));
+	var checked = inputs.filter(function(input) {
+		return input.checked == true;
+	});
+
+	var coloursArray = [];
+
+	for (var i = 0; i < checked.length; i++) {
+		coloursArray.push(colourScaleArray(checked[i].dataset.colour));
+	}
+
+	var bgs = coloursArray[0];
+	var cs = coloursArray[1];
+	
+	for (var i = 0; i < bgs.length; i++) {
+		for (var j = 0; j < cs.length; j++) {
+			var currentBg = getSwatchDetails(bgs[i]).display.hex;
+			var currentColor = getSwatchDetails(cs[j]).display.hex;
+			
+			if (currentBg !== currentColor) {
+				var card = insertColourCard(bgs[j], cs[i]);
+				box.innerHTML = box.innerHTML + card;
+			}
+		}
+	}
+}
+
+
+
 
 
 
@@ -278,10 +391,10 @@ var coloredContainer = document.querySelectorAll('.colour-study')[0];
 var colourScalesBox = document.querySelectorAll('.colour-scales')[0];
 var inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
 var drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
+var cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
+var cardsPage = document.getElementById('cards-drawer');
 
-for (var i = 0; i < drawerTriggers.length; i++) {
-	addDrawerEvent(drawerTriggers[i]);
-}
+
 
 displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
@@ -290,6 +403,12 @@ coloredContainer.style.backgroundColor = colorInputs[0].value;
 setInputsContrast();
 
 
+
+
+// drawer events
+for (var i = 0; i < drawerTriggers.length; i++) {
+	addDrawerEvent(drawerTriggers[i]);
+}
 
 // Input colour event
 for (var i = 0; i < colorInputs.length; i++) {
@@ -303,4 +422,10 @@ for (var i = 0; i < colorInputs.length; i++) {
 
 		}
 	});
-}
+};
+
+// generate cards event
+cardsTrigger.addEventListener('click', function(e) {
+	setupColourSwitch();
+	setupCards();
+});
