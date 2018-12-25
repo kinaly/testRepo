@@ -634,6 +634,12 @@ html {
   margin: 1px;
   min-width: 9em;
 }
+.colour-cards__item.-optional {
+  display: none;
+}
+.colour-cards__switch:checked ~ .colour-cards__box .colour-cards__item.-optional {
+  display: block;
+}
 /* -------------------------------------- */
 /* ==for the dirty code                   */
 /* -------------------------------------- */

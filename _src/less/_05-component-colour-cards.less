@@ -10,4 +10,12 @@
 	margin: 1px;
 	
 	min-width: 9em;
+	
+	&.-optional {
+		display: none;
+		
+		.colour-cards__switch:checked ~ .colour-cards__box & {
+			display: block;
+		}
+	}
 }

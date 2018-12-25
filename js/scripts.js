@@ -196,7 +196,8 @@ function insertColourCard(bgColour, textColour) {
 	let colourCardInfo = {
 		'bgColour': bgColour,
 		'textColour': textColour,
-		'contrastRatio': getContrast(bgColour, textColour)
+		'contrastRatio': getContrast(bgColour, textColour),
+		'additionalClasses': getContrast(bgColour, textColour) < 4.5 ? '-optional' : ''
 	}
 
 	let colourCardTemplate = env.render('colour-card.html', {colourCard: colourCardInfo});
@@ -364,6 +365,12 @@ function setupCards() {
 
 	var bgs = coloursArray[0];
 	var cs = coloursArray[1];
+
+	bgs.push(chroma('#000000'));
+	cs.push(chroma('#000000'));
+
+	bgs.splice(0, 0, chroma('#ffffff'));
+	cs.splice(0, 0, chroma('#ffffff'));
 	
 	for (var i = 0; i < bgs.length; i++) {
 		for (var j = 0; j < cs.length; j++) {
