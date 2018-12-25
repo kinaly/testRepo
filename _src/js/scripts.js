@@ -76,6 +76,48 @@ function getSwatchDetails(colour) {
 
 
 
+// Drawer functions
+// ////////////////
+
+// To add event to a drawer trigger
+function addDrawerEvent(elem) {
+	elem.addEventListener(
+		'click',
+		function(e) {
+			event.preventDefault();
+
+			var drawer = document.querySelector(event.target.hash);
+			if (!drawer) return;
+
+			toggleDrawer(drawer, this);
+		},
+	false);
+}
+
+
+// Toggle drawer and insert content
+function toggleDrawer(drawer, trigger) {
+	if (drawer.classList.contains('-is-open')) {
+		closeDrawer(drawer);
+		return;
+	}
+
+	openDrawer(drawer);
+}
+
+function openDrawer(drawer) {
+	drawer.classList.add('-is-open');
+}
+
+function closeDrawer(drawer) {
+	drawer.classList.remove('-is-open');
+}
+
+
+
+
+
+
 // Layout functions
 // ////////////////
 

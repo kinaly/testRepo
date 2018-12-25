@@ -39,6 +39,10 @@
 	</div>
 
 	<section class="colour-scales switchable-info__input-sibling"></section>
+	
+	<div class="padded-section colour-scales-options">
+		<a href="#cards-drawer" class="btn js-toggle-drawer">View cards</a>
+	</div>
 
 
 	<!-- <div class="reference switchable-info__input-sibling"></div> -->
@@ -48,6 +52,22 @@
 </main>
 
 
+
+  <div class="drawers">
+	<div class="drawer" id="cards-drawer">
+		<div class="drawer__frame">
+			<a href="#cards-drawer" class="drawer__close js-toggle-drawer">x</a>
+			<div class="drawer__content">
+				
+				<p>The content of the drawer</p>
+				
+			</div>
+		</div>
+	</div>
+	
+	<!-- Needs to stay at the same level as .drawers -->
+	<div class="drawer-overlay"></div>
+</div>
 
 	<!-- Chroma -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.0.2/chroma.min.js" type="text/javascript"></script>

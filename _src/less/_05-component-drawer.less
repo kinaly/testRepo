@@ -1,0 +1,68 @@
+.drawer {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 5;
+	
+	width: 90%;
+	height: 100%;
+	
+	transform: translateX(120%);
+	
+	transition: transform 350ms ease-in-out;
+	
+	background-color: #fff;
+	box-shadow: 0 0 10px -5px rgba(0,0,0,0.3),
+							0 0 24px 2px rgba(0,0,0,0.24), 
+							0 0 30px 5px rgba(0,0,0,0.22);
+	
+	&.-is-open {
+		transform: translateX(0);
+	}
+}
+
+.drawer__frame {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.drawer__content {
+	padding: 1em;
+}
+
+.drawer__close {
+	position: absolute;
+	right: 0;
+	width: 2em;
+	height: 2em;
+	
+	background-color: lightgrey;
+	text-align: center;
+}
+
+
+.drawer-overlay {
+	position: fixed;
+	top: 0; left: 0;
+	z-index: -1;
+
+	width: 100%;
+	height: 100%;
+	
+	opacity: 0;
+	background-color: rgba(0,0,0,0.3);
+	
+	transition: opacity 300ms ease-in-out, z-index 1000ms ease-in;
+	transition-duration: 300ms, 1000ms;
+	
+	.drawer.-is-open ~ & {
+		opacity: 1;
+		z-index: 1;
+		
+		transition-duration: 300ms, 1ms;
+	}
+
+}

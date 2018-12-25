@@ -76,6 +76,48 @@ function getSwatchDetails(colour) {
 
 
 
+// Drawer functions
+// ////////////////
+
+// To add event to a drawer trigger
+function addDrawerEvent(elem) {
+	elem.addEventListener(
+		'click',
+		function(e) {
+			event.preventDefault();
+
+			var drawer = document.querySelector(event.target.hash);
+			if (!drawer) return;
+
+			toggleDrawer(drawer, this);
+		},
+	false);
+}
+
+
+// Toggle drawer and insert content
+function toggleDrawer(drawer, trigger) {
+	if (drawer.classList.contains('-is-open')) {
+		closeDrawer(drawer);
+		return;
+	}
+
+	openDrawer(drawer);
+}
+
+function openDrawer(drawer) {
+	drawer.classList.add('-is-open');
+}
+
+function closeDrawer(drawer) {
+	drawer.classList.remove('-is-open');
+}
+
+
+
+
+
+
 // Layout functions
 // ////////////////
 
@@ -100,7 +142,7 @@ function insertSwatch(swatchDetails, container) {
 
 
 // display a custom hue scale
-function displayCustomHueScaleIn(parent, colour) {
+function displayHueScaleIn(parent, colour) {
 	var colourLuminosity = getSwatchDetails(colour).hslLuminosity;
 
 	var lightStep = (100 - colourLuminosity) / 5;
@@ -120,11 +162,11 @@ function displayCustomHueScaleIn(parent, colour) {
 
 		var swatchDetails = getSwatchDetails(col);
 		var swatch = insertSwatch(swatchDetails, parent);
-		swatch.classList.add('tone-scale__swatch');
+		swatch.classList.add('colour-scale__swatch');
 	}
 
 	var mainSwatch = insertSwatch(getSwatchDetails(colour), parent);
-	mainSwatch.classList.add('tone-scale__swatch','-main');
+	mainSwatch.classList.add('colour-scale__swatch','-main');
 
 	for (var i = 0; i < 4; i++) {
 		var lum = colourLuminosity - (i+1) * darkStep;
@@ -135,14 +177,14 @@ function displayCustomHueScaleIn(parent, colour) {
 
 		var swatchDetails = getSwatchDetails(col);
 		var swatch = insertSwatch(swatchDetails, parent);
-		swatch.classList.add('tone-scale__swatch');
+		swatch.classList.add('colour-scale__swatch');
 	}
 
 	parent.dataset.colour = colour;
 	parent.style.backgroundColor = colorInputs[0].value;
 
 	
-	var remove = addMarkup('div', 'tone-scale__remove', 'x');
+	var remove = addMarkup('div', 'colour-scale__remove', 'x');
 	parent.appendChild(remove);
 
 	// a bit brittle as it relies on HTML structure
@@ -154,8 +196,8 @@ function displayCustomHueScaleIn(parent, colour) {
 
 
 
-// display a reduced hue matrix based on a range of contrast ratio between a colour based on main colour and white
-function displayPartialHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
+// display a hue matrix based on a range of contrast ratio between 2 colours
+function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
 	var hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
 	
@@ -193,13 +235,13 @@ function displayPartialHueMatrixIn(parent, mainColour, secondaryColour, contrast
 
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
-					var scale = addMarkup('div', 'tone-scale', null);
-					if (hueScalesBox.childNodes.length > 0) {
-						hueScalesBox.insertBefore(scale, hueScalesBox.childNodes[0]);
+					var scale = addMarkup('div', 'colour-scale', null);
+					if (colourScalesBox.childNodes.length > 0) {
+						colourScalesBox.insertBefore(scale, colourScalesBox.childNodes[0]);
 					} else {
-						hueScalesBox.appendChild(scale);
+						colourScalesBox.appendChild(scale);
 					}
-					displayCustomHueScaleIn(scale, this.dataset.hex);
+					displayHueScaleIn(scale, this.dataset.hex);
 				});
 			}
 		}
@@ -233,7 +275,7 @@ function setInputsContrast() {
 var colorInputs = document.querySelectorAll('.color-input');
 var hueMatrixes = document.querySelectorAll('.hue-matrix');
 var coloredContainer = document.querySelectorAll('.colour-study')[0];
-var hueScalesBox = document.querySelectorAll('.hue-scales')[0];
+var colourScalesBox = document.querySelectorAll('.colour-scales')[0];
 var inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
 var drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 
@@ -241,7 +283,7 @@ for (var i = 0; i < drawerTriggers.length; i++) {
 	addDrawerEvent(drawerTriggers[i]);
 }
 
-displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
+displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
 coloredContainer.style.backgroundColor = colorInputs[0].value;
 
@@ -255,7 +297,7 @@ for (var i = 0; i < colorInputs.length; i++) {
 		if (chroma.valid(this.value)) {
 			coloredContainer.style.backgroundColor = colorInputs[0].value;
 
-			displayPartialHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
+			displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
 			setInputsContrast();
 
