@@ -11,11 +11,11 @@ output += "\" style=\"background-color: ";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "colourCard")),"bgColour"), env.opts.autoescape);
 output += "; color: ";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "colourCard")),"textColour"), env.opts.autoescape);
-output += "\">\n\t<p>";
+output += "\">\n\t<p class=\"colour-cards__info-label\">Text</p>\n\t<p class=\"colour-cards__heading\">";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "colourCard")),"textColour"), env.opts.autoescape);
-output += "</p>\n\t<p>The quick brown fox jumps over the lazy dog</p>\n\t<p>bg: ";
+output += "</p>\n\t\n\t<p class=\"colour-cards__info-label\">Background</p>\n\t<p class=\"colour-cards__subheading\">";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "colourCard")),"bgColour"), env.opts.autoescape);
-output += "</p>\n\t<p>";
+output += "</p>\n\t\n\t<p class=\"colour-cards__sample\">The quick brown fox jumps over the lazy dog</p>\n\n\t<p>";
 output += runtime.suppressValue(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "colourCard")),"contrastRatio"), env.opts.autoescape);
 output += "</p>\n</div>";
 if(parentTemplate) {

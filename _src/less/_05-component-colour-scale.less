@@ -1,13 +1,12 @@
 .colour-scale {
 	display: flex;
 	width: 100%;
-	
-	padding: 1em;
 }
 
 .colour-scale__swatch {
-	flex: 1 0 0;
-	
+	flex: 1 1 auto;
+	min-width: 0; // to prevent overflow
+		
 	&.-main {
 		flex-grow: 1.25;
 	}

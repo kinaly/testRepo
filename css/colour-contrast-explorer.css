@@ -447,7 +447,7 @@ html {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.drawer__content {
+.drawer__content.-padded {
   padding: 1em;
 }
 .drawer__close {
@@ -534,10 +534,13 @@ html {
 }
 .swatch p {
   margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 .swatch__info {
   position: relative;
   z-index: 2;
+  width: 100%;
   padding: 0.5em;
   text-align: center;
 }
@@ -552,17 +555,63 @@ html {
   background-image: -o-linear-gradient(315deg, white, white 0.5em, transparent 0.5em, transparent);
   background-image: linear-gradient(135deg, white, white 0.5em, transparent 0.5em, transparent);
 }
+.swatch-radio {
+  display: inline-block;
+}
+.swatch-radio__input {
+  position: absolute;
+  top: -100vh;
+  left: -100vw;
+}
+.swatch-radio__label {
+  position: relative;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-right: 1em;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0.75;
+  font-size: 81.25%;
+  font-weight: bold;
+  color: transparent;
+  -webkit-transition: opacity 250ms ease-in-out;
+  -o-transition: opacity 250ms ease-in-out;
+  transition: opacity 250ms ease-in-out;
+}
+.swatch-radio__label:first-child {
+  margin-right: 0;
+}
+.swatch-radio__label:hover {
+  opacity: 1;
+}
+.swatch-radio__input:checked ~ .swatch-radio__label {
+  opacity: 1;
+  cursor: default;
+}
+.swatch-radio__input:checked ~ .swatch-radio__label:before {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #e4bc4c;
+}
+.swatch-radio.-clip-text .swatch-radio__label {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .colour-scale {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  padding: 1em;
 }
 .colour-scale__swatch {
   -webkit-box-flex: 1;
-      -ms-flex: 1 0 0px;
-          flex: 1 0 0;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  min-width: 0;
 }
 .colour-scale__swatch.-main {
   -webkit-box-flex: 1.25;
@@ -619,26 +668,81 @@ html {
   z-index: 200;
   outline: 1px solid #fff;
 }
+.colour-cards__toggle-input {
+  position: absolute;
+  top: -100vh;
+  left: -100vw;
+  z-index: -1;
+}
+.colour-cards__toggle-label {
+  position: relative;
+  display: inline-block;
+  font-size: 75%;
+}
+.colour-cards__toggle-label:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e4bc4c;
+  -webkit-transition: -webkit-transform 150ms ease-in-out;
+  transition: -webkit-transform 150ms ease-in-out;
+  -o-transition: transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out;
+  transition: transform 150ms ease-in-out, -webkit-transform 150ms ease-in-out;
+  -webkit-transform-origin: 0 50%;
+      -ms-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+}
+.colour-cards__toggle-input:checked ~ * .colour-cards__toggle-label:before {
+  -webkit-transform: scaleX(0);
+      -ms-transform: scaleX(0);
+          transform: scaleX(0);
+}
+.colour-cards__switch {
+  padding: 0.5em 0 1em;
+  border-bottom: 1px solid #ccc;
+}
+.colour-cards__switch:first-child {
+  padding-top: 0;
+}
 .colour-cards__box {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  background-color: #f4f4f4;
 }
 .colour-cards__item {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 0px;
           flex: 1 0 0;
-  padding: 1em;
+  padding: 2em;
   margin: 1px;
-  min-width: 9em;
+  min-width: 16em;
 }
 .colour-cards__item.-optional {
   display: none;
 }
-.colour-cards__switch:checked ~ .colour-cards__box .colour-cards__item.-optional {
+.colour-cards__toggle-input:checked ~ .colour-cards__box .colour-cards__item.-optional {
   display: block;
+}
+.colour-cards__info-label {
+  margin: 0;
+  font-size: 75%;
+}
+.colour-cards__heading {
+  margin: 0 0 0.25em;
+  font-size: 3em;
+  font-weight: bold;
+}
+.colour-cards__subheading {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 /* -------------------------------------- */
 /* ==for the dirty code                   */
@@ -648,6 +752,9 @@ html {
 /* -------------------------------------- */
 /* the only place where the use of !important may be tolerated */
 /* Spacing */
+.u-mt-none {
+  margin-top: 0;
+}
 .u-mb-medium {
   margin-bottom: 1em;
 }

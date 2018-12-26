@@ -58,15 +58,18 @@
 		<div class="drawer__frame">
 			<a href="#cards-drawer" class="drawer__close js-toggle-drawer">x</a>
 			<div class="drawer__content colour-cards">
+				<input type="checkbox" id="colour-cards__show-all-trigger" class="colour-cards__toggle-input">
 				
-				<section class="colour-cards__options">
-					<div class="colour-cards__bg-switch"></div>
-					<div class="colour-cards__colour-switch"></div>
-					<div><label for="colour-cards__show-all-trigger">Include failed ratio combinations</label></div>
+				<section class="colour-cards__options padded-section">
+					<div class="colour-cards__switch colour-cards__colour-switch"></div>
+					<div class="colour-cards__switch colour-cards__bg-switch u-mb-medium"></div>
+					
+					<div>
+						<label for="colour-cards__show-all-trigger"><span class="colour-cards__toggle-label">Include failed ratio combinations</span></label>
+					</div>
 				</section>
 				
-				<input type="checkbox" id="colour-cards__show-all-trigger" class="colour-cards__switch">
-				<section class="colour-cards__box">Cards here</section>
+				<section class="colour-cards__box padded-section">Cards here</section>
 				
 			</div>
 		</div>

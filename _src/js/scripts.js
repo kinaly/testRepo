@@ -181,8 +181,18 @@ function insertSwatch(swatchDetails, container) {
 
 // insert a radio swatch
 function insertRadioSwatch(colour, name) {
+	let gradientSteps = colourScaleArray(colour);
+	let gradientString = 'linear-gradient(to right,';
+
+	for (var i = 0; i < gradientSteps.length; i++) {
+		gradientString = gradientString + chroma(gradientSteps[i]).hex() + ' ' + (i+1) * 10 + '%,';
+	}
+
+	gradientString = gradientString + '#000)';
+
 	let swatchInfo = getSwatchDetails(colour);
 	swatchInfo['radioName'] = name;
+	swatchInfo['cssGradient'] = gradientString;
 
 	let radioSwatchTemplate = env.render('swatch-radio.html', {swatch: swatchInfo});
 
@@ -333,6 +343,10 @@ function setupColourSwitch() {
 		bgSwitch.innerHTML = bgSwitch.innerHTML + radioSwatchBg;
 		colourSwitch.innerHTML = colourSwitch.innerHTML + radioSwatchColour;
 	}
+	var textSwatch = colourSwitch.querySelectorAll('.swatch-radio');
+	for (var i = 0; i < textSwatch.length; i++) {
+		textSwatch[i].classList.add('-clip-text');
+	}
 
 	bgSwitch.querySelector('.swatch-radio__input').checked = true;
 	colourSwitch.querySelector('.swatch-radio__input').checked = true;
@@ -363,8 +377,8 @@ function setupCards() {
 		coloursArray.push(colourScaleArray(checked[i].dataset.colour));
 	}
 
-	var bgs = coloursArray[0];
-	var cs = coloursArray[1];
+	var cs = coloursArray[0];
+	var bgs = coloursArray[1];
 
 	bgs.push(chroma('#000000'));
 	cs.push(chroma('#000000'));
@@ -378,7 +392,7 @@ function setupCards() {
 			var currentColor = getSwatchDetails(cs[j]).display.hex;
 			
 			if (currentBg !== currentColor) {
-				var card = insertColourCard(bgs[j], cs[i]);
+				var card = insertColourCard(bgs[i], cs[j]);
 				box.innerHTML = box.innerHTML + card;
 			}
 		}
