@@ -121,7 +121,7 @@ function colourScaleArray(colour) {
 function addDrawerEvent(elem) {
 	elem.addEventListener(
 		'click',
-		function(e) {
+		function(event) {
 			event.preventDefault();
 
 			var drawer = document.querySelector(event.target.hash);
