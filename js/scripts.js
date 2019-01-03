@@ -74,18 +74,20 @@ function getSwatchDetails(colour) {
 
 
 // Create an array for a colour scale
-function colourScaleArray(colour) {
+function colourScaleArray(colour, steps) {
+	var finalSteps = isNaN(steps) ? 9 : steps;
+	var halfSteps = Math.floor(finalSteps / 2);
 	var colourScale = [];
 	
 	var colourLuminosity = getSwatchDetails(colour).hslLuminosity;
 
-	var lightStep = (100 - colourLuminosity) / 5;
-	var darkStep = colourLuminosity / 5;
+	var lightStep = (100 - colourLuminosity) / (halfSteps + 1);
+	var darkStep = colourLuminosity / (halfSteps + 1);
 
-	var lightScale = newChromaScale(colour, '#ffffff', 6);
-	var darkScale = newChromaScale(colour, '#000000', 6);
+	var lightScale = newChromaScale(colour, '#ffffff', (halfSteps + 2));
+	var darkScale = newChromaScale(colour, '#000000', (halfSteps + 2));
 
-	for (var i = 4 - 1; i >= 0; i--) {
+	for (var i = halfSteps - 1; i >= 0; i--) {
 		var lum = colourLuminosity + (i+1) * lightStep;
 		var col1 = chroma(colour).set('hsl.l', lum/100);
 		var col2 = lightScale[i+1];
@@ -97,7 +99,7 @@ function colourScaleArray(colour) {
 
 	colourScale.push(chroma(colour));
 
-	for (var i = 0; i < 4; i++) {
+	for (var i = 0; i < halfSteps; i++) {
 		var lum = colourLuminosity - (i+1) * darkStep;
 		var col1 = chroma(colour).set('hsl.l', lum/100);
 		var col2 = darkScale[i+1];
@@ -164,6 +166,8 @@ function insertSwatch(swatchDetails, container) {
 	let swatchTemplate = env.render('swatch.html', { swatch: swatchDetails }),
 			swatch = addMarkup('div', 'swatch', swatchTemplate);
 
+	swatch.dataset.hex = swatchDetails.display.hex;
+
 	if (swatchDetails.contrastToWhite > 4.54) {
 		swatch.classList.add('-reverse');
 	}
@@ -181,14 +185,18 @@ function insertSwatch(swatchDetails, container) {
 
 // insert a radio swatch
 function insertRadioSwatch(colour, name) {
-	let gradientSteps = colourScaleArray(colour);
+	let gradient = colourScaleArray(colour, 3);
 	let gradientString = 'linear-gradient(to right,';
 
-	for (var i = 0; i < gradientSteps.length; i++) {
-		gradientString = gradientString + chroma(gradientSteps[i]).hex() + ' ' + (i+1) * 10 + '%,';
+	for (var i = 0; i < gradient.length; i++) {
+		if (i < gradient.length - 1) {
+			gradientString = gradientString + chroma(gradient[i]).hex() + ', ';
+		} else {
+			gradientString = gradientString + chroma(gradient[i]).hex();
+		}
 	}
 
-	gradientString = gradientString + '#000)';
+	gradientString = gradientString + ')';
 
 	let swatchInfo = getSwatchDetails(colour);
 	swatchInfo['radioName'] = name;
@@ -221,19 +229,21 @@ function insertColourCard(bgColour, textColour) {
 function displayScaleIn(parent, colour) {
 	parent.innerHTML = '';
 
-	var scale = colourScaleArray(colour);
+	var steps = isNaN(colourScalesStepsInput.value) ? 9 : colourScalesStepsInput.value;
+
+	var scale = colourScaleArray(colour, steps);
 
 	for (var i = 0; i < scale.length; i++) {
 		var swatch = insertSwatch(getSwatchDetails(scale[i]), parent);
 		swatch.classList.add('colour-scale__swatch');
 
-		if (i == 4) {
+		if (i == Math.floor(steps/2)) {
 			swatch.classList.add('-main');
 		}
 	}
 
 	parent.dataset.colour = colour;
-	parent.style.backgroundColor = colorInputs[0].value;
+	parent.style.backgroundColor = chroma(colorInputs[0].value).hex();
 
 	var remove = addMarkup('div', 'colour-scale__remove', 'x');
 	parent.appendChild(remove);
@@ -282,7 +292,6 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
-				swatch.dataset.hex = currentRow[i].display.hex;
 
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
@@ -322,30 +331,28 @@ function setInputsContrast() {
 function setupColourSwitch() {
 	var scales = colourScalesBox.childNodes;
 
-	var colours = []
-
 	var bgSwitch = cardsPage.querySelector('.colour-cards__bg-switch');
 	var colourSwitch = cardsPage.querySelector('.colour-cards__colour-switch');
-
-	for (var i = 0; i < scales.length; i++) {
-		var colourArray = colourScaleArray(scales[i].dataset.colour);
-
-		colours.push(colourArray);
-	}
+	var switches = [bgSwitch, colourSwitch];
 
 
 	bgSwitch.innerHTML = '';
 	colourSwitch.innerHTML = '';
 
-	for (var i = 0; i < colours.length; i++) {
-		var radioSwatchBg = insertRadioSwatch(colours[i][4], 'bgCards');
-		var radioSwatchColour = insertRadioSwatch(colours[i][4], 'colourCards');
-		bgSwitch.innerHTML = bgSwitch.innerHTML + radioSwatchBg;
-		colourSwitch.innerHTML = colourSwitch.innerHTML + radioSwatchColour;
-	}
-	var textSwatch = colourSwitch.querySelectorAll('.swatch-radio');
-	for (var i = 0; i < textSwatch.length; i++) {
-		textSwatch[i].classList.add('-clip-text');
+	for (var i = 0; i < scales.length; i++) {
+		for (var j = 0; j < switches.length; j++) {
+			var inputName = (j == 0) ? 'bgCards' : 'textCards';
+			
+			var swatch = insertRadioSwatch(scales[i].dataset.colour, inputName);
+			switches[j].innerHTML += swatch;
+
+			var input = switches[j].childNodes[i].querySelector('.swatch-radio__input');
+			input.dataset.colourSteps = scales[i].querySelectorAll('.swatch').length;
+
+			if (inputName == 'textCards') {
+				switches[j].childNodes[i].classList.add('-clip-text');
+			}
+		}		
 	}
 
 	bgSwitch.querySelector('.swatch-radio__input').checked = true;
@@ -374,7 +381,7 @@ function setupCards() {
 	var coloursArray = [];
 
 	for (var i = 0; i < checked.length; i++) {
-		coloursArray.push(colourScaleArray(checked[i].dataset.colour));
+		coloursArray.push(colourScaleArray(checked[i].dataset.colour, parseInt(checked[i].dataset.colourSteps)));
 	}
 
 	var cs = coloursArray[0];
@@ -410,6 +417,7 @@ var colorInputs = document.querySelectorAll('.color-input');
 var hueMatrixes = document.querySelectorAll('.hue-matrix');
 var coloredContainer = document.querySelectorAll('.colour-study')[0];
 var colourScalesBox = document.querySelectorAll('.colour-scales')[0];
+var colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
 var inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
 var drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 var cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
