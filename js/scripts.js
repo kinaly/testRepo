@@ -435,7 +435,7 @@ for (var i = 0; i < drawerTriggers.length; i++) {
 for (var i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('change', function(e) {
 		if (chroma.valid(this.value)) {
-			coloredContainer.style.backgroundColor = colorInputs[0].value;
+			coloredContainer.style.backgroundColor = chroma(colorInputs[0].value).hex();
 
 			displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
