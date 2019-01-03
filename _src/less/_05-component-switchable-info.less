@@ -6,6 +6,10 @@
 .switchable-info__item {
 	display: none;
 	
+	&.-hex {
+		text-transform: uppercase;
+	}
+	
 	.switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling &.-hex,
 	
 	.switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling &.-hsl,
