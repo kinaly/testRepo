@@ -315,12 +315,12 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 // could totally be more re-usable
 function setInputsContrast() {
 	const contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
-	inputsContrast.innerHTML = contrast;
+	contrastInputs.innerHTML = contrast;
 
 	if (contrast > 4.6) {
-		inputsContrast.classList.add('-reverse');
+		contrastInputs.classList.add('-reverse');
 	} else {
-		inputsContrast.classList.remove('-reverse');
+		contrastInputs.classList.remove('-reverse');
 	}
 }
 
@@ -344,9 +344,6 @@ function setupColourSwitch() {
 			
 			const swatch = insertRadioSwatch(scales[i].dataset.colour, inputName);
 			switches[j].innerHTML += swatch;
-
-			const input = switches[j].childNodes[i].querySelector('.swatch-radio__input');
-			input.dataset.colourSteps = scales[i].querySelectorAll('.swatch').length;
 
 			if (inputName == 'textCards') {
 				switches[j].childNodes[i].classList.add('-clip-text');
@@ -408,7 +405,7 @@ function setupCardsIn(parent) {
 	let coloursArray = [];
 
 	for (let i = 0; i < checked.length; i++) {
-		coloursArray.push(colourScaleArray(checked[i].dataset.colour, parseInt(checked[i].dataset.colourSteps)));
+		coloursArray.push(colourScaleArray(checked[i].dataset.colour, parseInt(colourScalesStepsInput.value)));
 	}
 
 	const cs = coloursArray[0];
@@ -445,7 +442,7 @@ const hueMatrixes = document.querySelectorAll('.hue-matrix');
 const coloredContainer = document.querySelectorAll('.colour-study')[0];
 const colourScalesBox = document.querySelectorAll('.colour-scales')[0];
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
-const inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
+const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
 const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
 const cardsPage = document.getElementById('cards-drawer');
