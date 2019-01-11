@@ -243,7 +243,6 @@ function displayScaleIn(parent, colour, steps) {
 	}
 
 	parent.dataset.colour = colour;
-	parent.style.backgroundColor = chroma(colorInputs[0].value).hex();
 
 	const remove = addMarkup('div', 'colour-scale__remove', 'x');
 	parent.appendChild(remove);
