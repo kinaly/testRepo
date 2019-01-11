@@ -360,7 +360,7 @@ function setupColourSwitch() {
 	const inputs = cardsPage.querySelectorAll('.swatch-radio__input');
 	for (let i = 0; i < inputs.length; i++) {
 		inputs[i].addEventListener('change', function(e) {
-			setupCards();
+			setupCardsIn(colourCardsBox);
 		});
 	}
 }
@@ -386,11 +386,7 @@ function updateColourScales(scalesParent, inputSteps) {
 
 			for (let i = 0; i < currentColours.length; i++) {
 				const scale = addMarkup('div', 'colour-scale', null);
-				if (scalesParent.childNodes.length > 0) {
-					scalesParent.insertBefore(scale, scalesParent.childNodes[0]);
-				} else {
-					scalesParent.appendChild(scale);
-				}
+				scalesParent.appendChild(scale);
 				displayScaleIn(scale, currentColours[i], adjustedSteps);
 			}
 
@@ -401,9 +397,8 @@ function updateColourScales(scalesParent, inputSteps) {
 
 
 // set up the cards
-function setupCards() {
-	const box = cardsPage.querySelector('.colour-cards__box');
-	box.innerHTML = '';
+function setupCardsIn(parent) {
+	parent.innerHTML = '';
 
 	const inputs = [].slice.call(cardsPage.querySelectorAll('.swatch-radio__input'));
 	const checked = inputs.filter(function(input) {
@@ -432,7 +427,7 @@ function setupCards() {
 			
 			if (currentBg !== currentColor) {
 				let card = insertColourCard(bgs[i], cs[j]);
-				box.innerHTML = box.innerHTML + card;
+				parent.innerHTML = parent.innerHTML + card;
 			}
 		}
 	}
@@ -454,6 +449,7 @@ const inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
 const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
 const cardsPage = document.getElementById('cards-drawer');
+const colourCardsBox = cardsPage.querySelector('.colour-cards__box');
 
 
 
@@ -488,7 +484,7 @@ for (let i = 0; i < colorInputs.length; i++) {
 // generate cards event
 cardsTrigger.addEventListener('click', function(e) {
 	setupColourSwitch();
-	setupCards();
+	setupCardsIn(colourCardsBox);
 });
 
 
