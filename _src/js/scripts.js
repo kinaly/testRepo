@@ -30,8 +30,8 @@ function addMarkup(tag,tagClass,tagContent) {
 
 // Create an array of color following a gradient from colour 1 to colour 2
 function newChromaScale(color01,color02,colorSteps, mode) {
-	var colorDomain = mode ? mode : 'lab';
-  var colorScale = chroma.scale([color01, color02]).mode(colorDomain).colors(colorSteps);
+	const colorDomain = mode ? mode : 'lab';
+  const colorScale = chroma.scale([color01, color02]).mode(colorDomain).colors(colorSteps);
   return colorScale;
 }
 
@@ -39,7 +39,7 @@ function newChromaScale(color01,color02,colorSteps, mode) {
 
 // Get the contrast ratio between 2 colours rounded at 2 decimals
 function getContrast(color01, color02) {
-	var contrast = Math.floor(chroma.contrast(color01, color02) * 100) / 100;
+	const contrast = Math.floor(chroma.contrast(color01, color02) * 100) / 100;
 	return contrast;
 }
 
@@ -47,15 +47,15 @@ function getContrast(color01, color02) {
 
 // Create a swatch object with details I may use in templates
 function getSwatchDetails(colour) {
-	var hslHue = Math.floor(chroma(colour).get('hsl.h'));
-	var hslSaturation = Math.floor(chroma(colour).get('hsl.s') * 100);
-	var hslLuminosity = Math.floor(chroma(colour).get('hsl.l') * 100);
+	const hslHue = Math.floor(chroma(colour).get('hsl.h'));
+	const hslSaturation = Math.floor(chroma(colour).get('hsl.s') * 100);
+	const hslLuminosity = Math.floor(chroma(colour).get('hsl.l') * 100);
 
-	var hsvHue = Math.floor(chroma(colour).get('hsv.h'));
-	var hsvSaturation = Math.floor(chroma(colour).get('hsv.s') * 100);
-	var hsvValue = Math.floor(chroma(colour).get('hsv.v') * 100);
+	const hsvHue = Math.floor(chroma(colour).get('hsv.h'));
+	const hsvSaturation = Math.floor(chroma(colour).get('hsv.s') * 100);
+	const hsvValue = Math.floor(chroma(colour).get('hsv.v') * 100);
 
-	var swatchDetails = {
+	const swatchDetails = {
 		'display': {
 			'hex': chroma(colour).hex(),
 			'hsl': 'hsl(' + hslHue.toString() + ',' + hslSaturation.toString() + '%,' + hslLuminosity.toString() + '%)',
@@ -75,36 +75,36 @@ function getSwatchDetails(colour) {
 
 // Create an array for a colour scale
 function colourScaleArray(colour, steps) {
-	var finalSteps = isNaN(steps) ? 9 : steps;
-	var halfSteps = Math.floor(finalSteps / 2);
-	var colourScale = [];
+	const finalSteps = isNaN(steps) ? 9 : steps;
+	const halfSteps = Math.floor(finalSteps / 2);
+	const colourScale = [];
 	
-	var colourLuminosity = getSwatchDetails(colour).hslLuminosity;
+	const colourLuminosity = getSwatchDetails(colour).hslLuminosity;
 
-	var lightStep = (100 - colourLuminosity) / (halfSteps + 1);
-	var darkStep = colourLuminosity / (halfSteps + 1);
+	const lightStep = (100 - colourLuminosity) / (halfSteps + 1);
+	const darkStep = colourLuminosity / (halfSteps + 1);
 
-	var lightScale = newChromaScale(colour, '#ffffff', (halfSteps + 2));
-	var darkScale = newChromaScale(colour, '#000000', (halfSteps + 2));
+	const lightScale = newChromaScale(colour, '#ffffff', (halfSteps + 2));
+	const darkScale = newChromaScale(colour, '#000000', (halfSteps + 2));
 
-	for (var i = halfSteps - 1; i >= 0; i--) {
-		var lum = colourLuminosity + (i+1) * lightStep;
-		var col1 = chroma(colour).set('hsl.l', lum/100);
-		var col2 = lightScale[i+1];
+	for (let i = halfSteps - 1; i >= 0; i--) {
+		const lum = colourLuminosity + (i+1) * lightStep;
+		const col1 = chroma(colour).set('hsl.l', lum/100);
+		const col2 = lightScale[i+1];
 
-		var col = chroma.mix(col1, col2, 0.2, 'hsl');
+		const col = chroma.mix(col1, col2, 0.2, 'hsl');
 
 		colourScale.push(col);
 	}
 
 	colourScale.push(chroma(colour));
 
-	for (var i = 0; i < halfSteps; i++) {
-		var lum = colourLuminosity - (i+1) * darkStep;
-		var col1 = chroma(colour).set('hsl.l', lum/100);
-		var col2 = darkScale[i+1];
+	for (let i = 0; i < halfSteps; i++) {
+		const lum = colourLuminosity - (i+1) * darkStep;
+		const col1 = chroma(colour).set('hsl.l', lum/100);
+		const col2 = darkScale[i+1];
 
-		var col = chroma.mix(col1, col2, 0.2, 'hsl');
+		const col = chroma.mix(col1, col2, 0.2, 'hsl');
 		colourScale.push(col);
 	}
 
@@ -126,7 +126,7 @@ function addDrawerEvent(elem) {
 		function(event) {
 			event.preventDefault();
 
-			var drawer = document.querySelector(event.target.hash);
+			const drawer = document.querySelector(event.target.hash);
 			if (!drawer) return;
 
 			toggleDrawer(drawer, this);
@@ -229,12 +229,12 @@ function insertColourCard(bgColour, textColour) {
 function displayScaleIn(parent, colour) {
 	parent.innerHTML = '';
 
-	var steps = isNaN(colourScalesStepsInput.value) ? 9 : colourScalesStepsInput.value;
+	const steps = isNaN(colourScalesStepsInput.value) ? 9 : colourScalesStepsInput.value;
 
-	var scale = colourScaleArray(colour, steps);
+	const scale = colourScaleArray(colour, steps);
 
-	for (var i = 0; i < scale.length; i++) {
-		var swatch = insertSwatch(getSwatchDetails(scale[i]), parent);
+	for (let i = 0; i < scale.length; i++) {
+		const swatch = insertSwatch(getSwatchDetails(scale[i]), parent);
 		swatch.classList.add('colour-scale__swatch');
 
 		if (i == Math.floor(steps/2)) {
@@ -245,12 +245,12 @@ function displayScaleIn(parent, colour) {
 	parent.dataset.colour = colour;
 	parent.style.backgroundColor = chroma(colorInputs[0].value).hex();
 
-	var remove = addMarkup('div', 'colour-scale__remove', 'x');
+	const remove = addMarkup('div', 'colour-scale__remove', 'x');
 	parent.appendChild(remove);
 
 	// a bit brittle as it relies on HTML structure
 	remove.addEventListener('click', function(e) {
-		var el = this.parentNode;
+		const el = this.parentNode;
 		el.parentNode.removeChild(el);
 	});
 }
@@ -260,34 +260,34 @@ function displayScaleIn(parent, colour) {
 // display a hue matrix based on a range of contrast ratio between 2 colours
 function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
-	var hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
+	const hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
 	
-	var saturation = getSwatchDetails(mainColour).hslSaturation;
-	var saturationRange = [saturation - 5, saturation + 10 <= 100 ? saturation + 10 : 100];
+	const saturation = getSwatchDetails(mainColour).hslSaturation;
+	const saturationRange = [saturation - 5, saturation + 10 <= 100 ? saturation + 10 : 100];
 
 
-	var currentRow = [];
+	let currentRow = [];
 
 	parent.innerHTML = '';
 
-	for (var lum = 0; lum < 100; lum++) {
-		for (var sat = saturationRange[0]; sat < saturationRange[1]; sat++) {
-			var col = 'hsl(' + hue + ',' + sat + '%,' + lum +'%)';
+	for (let lum = 0; lum < 100; lum++) {
+		for (let sat = saturationRange[0]; sat < saturationRange[1]; sat++) {
+			const col = 'hsl(' + hue + ',' + sat + '%,' + lum +'%)';
 			currentRow.push(getSwatchDetails(col));
 			
 		}
 
 
-		var match = currentRow.filter(function(item) {
-			var contrast = getContrast(item.display.hex, secondaryColour);
+		const match = currentRow.filter(function(item) {
+			const contrast = getContrast(item.display.hex, secondaryColour);
 			return contrast > contrastRange[0] && contrast < contrastRange[1];
 		});
 
 		if (match.length > 0) {
-			for (var i = 0; i < currentRow.length; i++) {
-				var swatch = insertSwatch(currentRow[i], parent);
+			for (let i = 0; i < currentRow.length; i++) {
+				const swatch = insertSwatch(currentRow[i], parent);
 
-				var constrastScore = swatch.querySelectorAll('.swatch__contrast')[0];
+				const constrastScore = swatch.querySelectorAll('.swatch__contrast')[0];
 				constrastScore.innerHTML = getContrast(currentRow[i].display.hex, colorInputs[1].value);
 
 				swatch.classList.add('hue-matrix__swatch');
@@ -295,7 +295,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
-					var scale = addMarkup('div', 'colour-scale', null);
+					const scale = addMarkup('div', 'colour-scale', null);
 					if (colourScalesBox.childNodes.length > 0) {
 						colourScalesBox.insertBefore(scale, colourScalesBox.childNodes[0]);
 					} else {
@@ -315,7 +315,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 // set the contrast score between both inputs
 // could totally be more re-usable
 function setInputsContrast() {
-	var contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
+	const contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
 	inputsContrast.innerHTML = contrast;
 
 	if (contrast > 4.6) {
@@ -329,24 +329,24 @@ function setInputsContrast() {
 
 // set up the colour switches in cards drawer
 function setupColourSwitch() {
-	var scales = colourScalesBox.childNodes;
+	const scales = colourScalesBox.childNodes;
 
-	var bgSwitch = cardsPage.querySelector('.colour-cards__bg-switch');
-	var colourSwitch = cardsPage.querySelector('.colour-cards__colour-switch');
-	var switches = [bgSwitch, colourSwitch];
+	const bgSwitch = cardsPage.querySelector('.colour-cards__bg-switch');
+	const colourSwitch = cardsPage.querySelector('.colour-cards__colour-switch');
+	const switches = [bgSwitch, colourSwitch];
 
 
 	bgSwitch.innerHTML = '';
 	colourSwitch.innerHTML = '';
 
-	for (var i = 0; i < scales.length; i++) {
-		for (var j = 0; j < switches.length; j++) {
-			var inputName = (j == 0) ? 'bgCards' : 'textCards';
+	for (let i = 0; i < scales.length; i++) {
+		for (let j = 0; j < switches.length; j++) {
+			const inputName = (j == 0) ? 'bgCards' : 'textCards';
 			
-			var swatch = insertRadioSwatch(scales[i].dataset.colour, inputName);
+			const swatch = insertRadioSwatch(scales[i].dataset.colour, inputName);
 			switches[j].innerHTML += swatch;
 
-			var input = switches[j].childNodes[i].querySelector('.swatch-radio__input');
+			const input = switches[j].childNodes[i].querySelector('.swatch-radio__input');
 			input.dataset.colourSteps = scales[i].querySelectorAll('.swatch').length;
 
 			if (inputName == 'textCards') {
@@ -358,8 +358,8 @@ function setupColourSwitch() {
 	bgSwitch.querySelector('.swatch-radio__input').checked = true;
 	colourSwitch.querySelector('.swatch-radio__input').checked = true;
 
-	var inputs = cardsPage.querySelectorAll('.swatch-radio__input');
-	for (var i = 0; i < inputs.length; i++) {
+	const inputs = cardsPage.querySelectorAll('.swatch-radio__input');
+	for (let i = 0; i < inputs.length; i++) {
 		inputs[i].addEventListener('change', function(e) {
 			setupCards();
 		});
@@ -370,22 +370,22 @@ function setupColourSwitch() {
 
 // set up the cards
 function setupCards() {
-	var box = cardsPage.querySelector('.colour-cards__box');
+	const box = cardsPage.querySelector('.colour-cards__box');
 	box.innerHTML = '';
 
-	var inputs = [].slice.call(cardsPage.querySelectorAll('.swatch-radio__input'));
-	var checked = inputs.filter(function(input) {
+	const inputs = [].slice.call(cardsPage.querySelectorAll('.swatch-radio__input'));
+	const checked = inputs.filter(function(input) {
 		return input.checked == true;
 	});
 
-	var coloursArray = [];
+	let coloursArray = [];
 
-	for (var i = 0; i < checked.length; i++) {
+	for (let i = 0; i < checked.length; i++) {
 		coloursArray.push(colourScaleArray(checked[i].dataset.colour, parseInt(checked[i].dataset.colourSteps)));
 	}
 
-	var cs = coloursArray[0];
-	var bgs = coloursArray[1];
+	const cs = coloursArray[0];
+	const bgs = coloursArray[1];
 
 	bgs.push(chroma('#000000'));
 	cs.push(chroma('#000000'));
@@ -393,13 +393,13 @@ function setupCards() {
 	bgs.splice(0, 0, chroma('#ffffff'));
 	cs.splice(0, 0, chroma('#ffffff'));
 	
-	for (var i = 0; i < bgs.length; i++) {
-		for (var j = 0; j < cs.length; j++) {
-			var currentBg = getSwatchDetails(bgs[i]).display.hex;
-			var currentColor = getSwatchDetails(cs[j]).display.hex;
+	for (let i = 0; i < bgs.length; i++) {
+		for (let j = 0; j < cs.length; j++) {
+			const currentBg = getSwatchDetails(bgs[i]).display.hex;
+			const currentColor = getSwatchDetails(cs[j]).display.hex;
 			
 			if (currentBg !== currentColor) {
-				var card = insertColourCard(bgs[i], cs[j]);
+				let card = insertColourCard(bgs[i], cs[j]);
 				box.innerHTML = box.innerHTML + card;
 			}
 		}
@@ -413,15 +413,15 @@ function setupCards() {
 
 // Initialise stuff
 // ////////////////
-var colorInputs = document.querySelectorAll('.color-input');
-var hueMatrixes = document.querySelectorAll('.hue-matrix');
-var coloredContainer = document.querySelectorAll('.colour-study')[0];
-var colourScalesBox = document.querySelectorAll('.colour-scales')[0];
-var colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
-var inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
-var drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
-var cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
-var cardsPage = document.getElementById('cards-drawer');
+const colorInputs = document.querySelectorAll('.color-input');
+const hueMatrixes = document.querySelectorAll('.hue-matrix');
+const coloredContainer = document.querySelectorAll('.colour-study')[0];
+const colourScalesBox = document.querySelectorAll('.colour-scales')[0];
+const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
+const inputsContrast = document.querySelectorAll('.inputs-contrast-score')[0];
+const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
+const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
+const cardsPage = document.getElementById('cards-drawer');
 
 
 
@@ -435,12 +435,12 @@ setInputsContrast();
 
 
 // drawer events
-for (var i = 0; i < drawerTriggers.length; i++) {
+for (let i = 0; i < drawerTriggers.length; i++) {
 	addDrawerEvent(drawerTriggers[i]);
 }
 
 // Input colour event
-for (var i = 0; i < colorInputs.length; i++) {
+for (let i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('change', function(e) {
 		if (chroma.valid(this.value)) {
 			coloredContainer.style.backgroundColor = chroma(colorInputs[0].value).hex();
