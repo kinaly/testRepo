@@ -447,6 +447,7 @@ const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
 const cardsPage = document.getElementById('cards-drawer');
 const colourCardsBox = cardsPage.querySelector('.colour-cards__box');
+const matrixTypeInputs = document.querySelectorAll('input[name="hue-matrix-type"]');
 
 
 
@@ -470,11 +471,41 @@ for (let i = 0; i < colorInputs.length; i++) {
 		if (chroma.valid(this.value)) {
 			coloredContainer.style.backgroundColor = chroma(colorInputs[0].value).hex();
 
-			displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
+			const inputs = [].slice.call(matrixTypeInputs);
+			const checked = inputs.filter(function(input) {
+				return input.checked == true;
+			});
+
+			let contrastRange = [4.2, 5.2];
+			let contrastBase = getContrast(chroma(colorInputs[0].value), chroma(colorInputs[1].value));
+
+			if (checked.length == 1 && checked[0].value == 'similar') {
+				contrastRange = [(contrastBase - .3), (contrastBase + .3)];
+			}
+
+			displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, contrastRange);
 
 			setInputsContrast();
 
 		}
+	});
+};
+
+for (let i = 0; i < matrixTypeInputs.length; i++) {
+	matrixTypeInputs[i].addEventListener('change', function(e) {
+		const inputs = [].slice.call(matrixTypeInputs);
+		const checked = inputs.filter(function(input) {
+			return input.checked == true;
+		});
+
+		let contrastRange = [4.2, 5.2];
+		let contrastBase = getContrast(chroma(colorInputs[0].value), chroma(colorInputs[1].value));
+
+		if (checked.length == 1 && checked[0].value == 'similar') {
+			contrastRange = [(contrastBase - .3), (contrastBase + .3)];
+		}
+
+		displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, contrastRange);
 	});
 };
 
