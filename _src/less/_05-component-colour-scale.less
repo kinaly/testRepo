@@ -1,3 +1,8 @@
+.colour-scales-section {
+	display: flex;
+	flex-direction: column;
+}
+
 .colour-scale {
 	display: flex;
 	width: 100%;
@@ -36,6 +41,10 @@
 	display: none;
 	
 	text-align: center;
+	
+	&.-pre {
+		order: -10;
+	}
 	
 	.colour-scales:not(:empty) ~ & {
 		display: block;

@@ -226,18 +226,18 @@ function insertColourCard(bgColour, textColour) {
 
 
 // display a custom hue scale
-function displayScaleIn(parent, colour) {
+function displayScaleIn(parent, colour, steps) {
 	parent.innerHTML = '';
 
-	const steps = isNaN(colourScalesStepsInput.value) ? 9 : colourScalesStepsInput.value;
+	const scaleSteps = isNaN(colourScalesStepsInput.value) ? 9 : colourScalesStepsInput.value;
 
-	const scale = colourScaleArray(colour, steps);
+	const scale = colourScaleArray(colour, scaleSteps);
 
 	for (let i = 0; i < scale.length; i++) {
 		const swatch = insertSwatch(getSwatchDetails(scale[i]), parent);
 		swatch.classList.add('colour-scale__swatch');
 
-		if (i == Math.floor(steps/2)) {
+		if (i == Math.floor(scaleSteps/2)) {
 			swatch.classList.add('-main');
 		}
 	}
@@ -368,6 +368,39 @@ function setupColourSwitch() {
 
 
 
+// update colour scales when input steps change
+function updateColourScales(scalesParent, inputSteps) {
+	if (scalesParent.children.length > 0) {
+		const adjustedSteps = (inputSteps % 2) > 0 ? parseInt(inputSteps) : parseInt(inputSteps) + 1;
+		// identify first colour scale to figure out how many steps it contains
+		const scaleReference = scalesParent.children[0];
+		const scaleReferenceSteps = scaleReference.querySelectorAll('.swatch').length;
+
+		let currentColours =[]
+
+		if (scaleReferenceSteps != adjustedSteps) {
+			for (let i = 0; i < scalesParent.children.length; i++) {
+				currentColours.push(scalesParent.children[i].dataset.colour);
+			}
+
+			scalesParent.innerHTML = '';
+
+			for (let i = 0; i < currentColours.length; i++) {
+				const scale = addMarkup('div', 'colour-scale', null);
+				if (scalesParent.childNodes.length > 0) {
+					scalesParent.insertBefore(scale, scalesParent.childNodes[0]);
+				} else {
+					scalesParent.appendChild(scale);
+				}
+				displayScaleIn(scale, currentColours[i], adjustedSteps);
+			}
+
+		}
+	}
+}
+
+
+
 // set up the cards
 function setupCards() {
 	const box = cardsPage.querySelector('.colour-cards__box');
@@ -457,4 +490,9 @@ for (let i = 0; i < colorInputs.length; i++) {
 cardsTrigger.addEventListener('click', function(e) {
 	setupColourSwitch();
 	setupCards();
+});
+
+
+colourScalesStepsInput.addEventListener('change', function(e) {
+	updateColourScales(colourScalesBox, this.value);
 });
