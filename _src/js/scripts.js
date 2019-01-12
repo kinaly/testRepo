@@ -272,6 +272,8 @@ function displayScaleIn(parent, colour, steps) {
 // display a hue matrix based on a range of contrast ratio between 2 colours
 function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
+	const startingLum = getSwatchDetails(mainColour).hslLuminosity % 1;
+
 	const hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
 	
 	const saturation = getSwatchDetails(mainColour).hslSaturation;
@@ -282,7 +284,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 	parent.innerHTML = '';
 
-	for (let lum = 0; lum < 100; lum++) {
+	for (let lum = startingLum; lum < 100; lum++) {
 		for (let sat = saturationRange[0]; sat < saturationRange[1]; sat++) {
 			const col = 'hsl(' + hue + ',' + sat + '%,' + lum +'%)';
 			currentRow.push(getSwatchDetails(col));
@@ -304,6 +306,10 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
+
+				if (getSwatchDetails(mainColour).display.hex == currentRow[i].display.hex) {
+					swatch.classList.add('-highlight');
+				}
 
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
