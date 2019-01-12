@@ -113,6 +113,19 @@ function colourScaleArray(colour, steps) {
 
 
 
+// change background-color of an element or an array
+function changeBgColor(el, bgColor) {
+	if (Array.isArray(el) || NodeList.prototype.isPrototypeOf(el)) {
+		for (let i = 0; i < el.length; i++) {
+			el[i].style.backgroundColor = bgColor;
+		}
+	} else {
+		el.style.backgroundColor = bgColor;
+	}
+}
+
+
+
 
 
 
@@ -439,7 +452,7 @@ function setupCardsIn(parent) {
 // ////////////////
 const colorInputs = document.querySelectorAll('.color-input');
 const hueMatrixes = document.querySelectorAll('.hue-matrix');
-const coloredContainer = document.querySelectorAll('.colour-study')[0];
+const coloredContainer = document.querySelectorAll('.tinted-section');
 const colourScalesBox = document.querySelectorAll('.colour-scales')[0];
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
 const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
@@ -453,7 +466,7 @@ const matrixTypeInputs = document.querySelectorAll('input[name="hue-matrix-type"
 
 displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
-coloredContainer.style.backgroundColor = colorInputs[0].value;
+changeBgColor(coloredContainer, colorInputs[0].value);
 
 setInputsContrast();
 
@@ -469,7 +482,7 @@ for (let i = 0; i < drawerTriggers.length; i++) {
 for (let i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('change', function(e) {
 		if (chroma.valid(this.value)) {
-			coloredContainer.style.backgroundColor = chroma(colorInputs[0].value).hex();
+			changeBgColor(coloredContainer, chroma(colorInputs[0].value).hex());
 
 			const inputs = [].slice.call(matrixTypeInputs);
 			const checked = inputs.filter(function(input) {
