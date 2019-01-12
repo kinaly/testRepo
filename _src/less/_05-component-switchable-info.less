@@ -1,6 +1,5 @@
 .switchable-info__input {
-	position: absolute;
-	top: -100vh; left: -100vw;
+	.mixin-hidden-input();
 }
 
 .switchable-info__item {
@@ -23,15 +22,7 @@
 
 
 .switchable-info__label {
-	display: inline-block;
-	
-	padding: 0.25em 1em;
-	
-	background-color: #d3e9f0;
-	border-radius: 3px;
-	color: #286578;
-	
-	cursor: pointer;
+	.mixin-pill-default();
 	
 	.switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling &[for="colour-info-switch__hex"],
 	
@@ -41,7 +32,6 @@
 
 	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &[for="colour-info-switch__rgb"] {
 		
-		background-color: #e4bc4c;
-		color: #1e1705;
+		.mixin-pill-selected();
 	}
 }

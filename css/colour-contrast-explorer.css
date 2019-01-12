@@ -4,6 +4,25 @@
 /* --------------------------------- */
 /* ==global mixins                   */
 /* --------------------------------- */
+.mixin-hidden-input {
+  position: absolute;
+  top: -100vh;
+  left: -100vw;
+  opacity: 0;
+  z-index: -100;
+}
+.mixin-pill-default {
+  display: inline-block;
+  padding: 0.25em 1em;
+  background-color: var(--pill-bg-color, #d3e9f0);
+  border-radius: 3px;
+  color: var(--pill-text-color, #286578);
+  cursor: pointer;
+}
+.mixin-pill-selected {
+  --pill-bg-color: #e4bc4c;
+  --pill-text-color: #1e1705;
+}
 /* -------------------------------------------------------- */
 /*! ==normalize.css v3.0.2 | MIT License | git.io/normalize */
 /* -------------------------------------------------------- */
@@ -416,6 +435,25 @@ html {
 .btn:hover {
   background-color: #e7c462;
 }
+.radio-pill__input {
+  position: absolute;
+  top: -100vh;
+  left: -100vw;
+  opacity: 0;
+  z-index: -100;
+}
+.radio-pill__label {
+  display: inline-block;
+  padding: 0.25em 1em;
+  background-color: var(--pill-bg-color, #d3e9f0);
+  border-radius: 3px;
+  color: var(--pill-text-color, #286578);
+  cursor: pointer;
+}
+.radio-pill__input:checked + .radio-pill__label {
+  --pill-bg-color: #e4bc4c;
+  --pill-text-color: #1e1705;
+}
 .drawer {
   position: fixed;
   top: 0;
@@ -485,6 +523,8 @@ html {
   position: absolute;
   top: -100vh;
   left: -100vw;
+  opacity: 0;
+  z-index: -100;
 }
 .switchable-info__item {
   display: none;
@@ -501,17 +541,17 @@ html {
 .switchable-info__label {
   display: inline-block;
   padding: 0.25em 1em;
-  background-color: #d3e9f0;
+  background-color: var(--pill-bg-color, #d3e9f0);
   border-radius: 3px;
-  color: #286578;
+  color: var(--pill-text-color, #286578);
   cursor: pointer;
 }
 .switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hex"],
 .switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsl"],
 .switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsv"],
 .switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__rgb"] {
-  background-color: #e4bc4c;
-  color: #1e1705;
+  --pill-bg-color: #e4bc4c;
+  --pill-text-color: #1e1705;
 }
 .inputs-contrast-score.-reverse {
   color: #fff;
@@ -646,7 +686,6 @@ html {
 }
 .colour-scales-options {
   display: none;
-  text-align: center;
 }
 .colour-scales-options.-pre {
   -webkit-box-ordinal-group: -9;
@@ -786,6 +825,10 @@ html {
 /* Display */
 .u-inbl {
   display: inline-block;
+}
+/* Typography */
+.u-txt-center {
+  text-align: center;
 }
 
 /*# sourceMappingURL=../css/colour-contrast-explorer.css.map */

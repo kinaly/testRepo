@@ -24,26 +24,25 @@
 	</section>
 	
 	
-	<div class="padded-section colour-study switchable-info__input-sibling">
-		<div>
-			<input type="text" class="jscolor color-input u-mb-medium" value="#e4bc4c">
-			<input type="text" class="color-input u-mb-medium" value="#ffffff" disabled="disabled">
+	<div class="switchable-info__input-sibling">
+		<div class="padded-section tinted-section">
+			<input type="text" class="jscolor color-input" value="#e4bc4c">
+			<input type="text" class="color-input" value="#ffffff" disabled="disabled">
 			<span class="inputs-contrast-score">Contrast Score</span>
-			
-			<div class="u-mb-medium">
-				<label>
-					<input type="radio" name="hue-matrix-type" value="neutral" checked="checked">
-					<span>Neutral</span>
-				</label>
-
-				<label>
-					<input type="radio" name="hue-matrix-type" value="similar">
-					<span>Similar</span>
-				</label>
-			</div>
-
 		</div>
-		<section class="hue-matrix"></section>
+
+		<div class="padded-section">
+			<label class="radio-pill">
+				<input type="radio" name="hue-matrix-type" value="neutral" checked="checked" class="radio-pill__input">
+				<span class="radio-pill__label">Neutral</span>
+			</label>
+
+			<label class="radio-pill">
+				<input type="radio" name="hue-matrix-type" value="similar" class="radio-pill__input">
+				<span class="radio-pill__label">Similar</span>
+			</label>
+		</div>
+		<section class="hue-matrix padded-section tinted-section"></section>
 	</div>
 	
 	<div class="switchable-info__input-sibling colour-scales-section">
@@ -54,7 +53,7 @@
 			
 		</div>
 		
-		<div class="padded-section colour-scales-options">
+		<div class="padded-section colour-scales-options u-txt-center">
 			<a href="#cards-drawer" class="btn js-toggle-drawer js-set-cards">View cards</a>
 		</div>
 	</div>
