@@ -73,7 +73,7 @@ function getSwatchDetails(colour) {
 
 
 
-// Create an array for a colour scale
+// Create an array of tones for a colour
 function colourScaleArray(colour, steps) {
 	const finalSteps = isNaN(steps) ? 9 : steps;
 	const halfSteps = Math.floor(finalSteps / 2);
@@ -283,6 +283,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 	let currentRow = [];
 
 	parent.innerHTML = '';
+	parent.style.backgroundColor = chroma(mainColour);
 
 	for (let lum = startingLum; lum < 100; lum++) {
 		for (let sat = saturationRange[0]; sat < saturationRange[1]; sat++) {
@@ -302,7 +303,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 				const swatch = insertSwatch(currentRow[i], parent);
 
 				const constrastScore = swatch.querySelectorAll('.swatch__contrast')[0];
-				constrastScore.innerHTML = getContrast(currentRow[i].display.hex, colorInputs[1].value);
+				constrastScore.innerHTML = getContrast(currentRow[i].display.hex, chroma(secondaryColour));
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
