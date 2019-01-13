@@ -468,6 +468,8 @@ const cardsPage = document.getElementById('cards-drawer');
 const colourCardsBox = cardsPage.querySelector('.colour-cards__box');
 const matrixTypeInputs = document.querySelectorAll('input[name="hue-matrix-type"]');
 
+let lastInputColorChange = colorInputs[0];
+
 
 
 displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
@@ -487,6 +489,10 @@ for (let i = 0; i < drawerTriggers.length; i++) {
 // Input colour event
 for (let i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('change', function(e) {
+		lastInputColorChange = this;
+
+		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
+
 		if (chroma.valid(this.value)) {
 			changeBgColor(coloredContainer, chroma(colorInputs[0].value).hex());
 
@@ -496,17 +502,37 @@ for (let i = 0; i < colorInputs.length; i++) {
 			});
 
 			let contrastRange = [4.2, 5.2];
-			let contrastBase = getContrast(chroma(colorInputs[0].value), chroma(colorInputs[1].value));
+			let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
 
 			if (checked.length == 1 && checked[0].value == 'similar') {
 				contrastRange = [(contrastBase - .3), (contrastBase + .3)];
 			}
 
-			displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, contrastRange);
+			displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
 
 			setInputsContrast();
 
 		}
+	});
+
+	colorInputs[i].addEventListener('focus', function(e) {
+		lastInputColorChange = this;
+
+		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
+
+		const inputs = [].slice.call(matrixTypeInputs);
+		const checked = inputs.filter(function(input) {
+			return input.checked == true;
+		});
+
+		let contrastRange = [4.2, 5.2];
+		let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
+
+		if (checked.length == 1 && checked[0].value == 'similar') {
+			contrastRange = [(contrastBase - .3), (contrastBase + .3)];
+		}
+
+		displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
 	});
 };
 
@@ -517,16 +543,21 @@ for (let i = 0; i < matrixTypeInputs.length; i++) {
 			return input.checked == true;
 		});
 
+		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
+
 		let contrastRange = [4.2, 5.2];
-		let contrastBase = getContrast(chroma(colorInputs[0].value), chroma(colorInputs[1].value));
+		let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
 
 		if (checked.length == 1 && checked[0].value == 'similar') {
 			contrastRange = [(contrastBase - .3), (contrastBase + .3)];
 		}
 
-		displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, contrastRange);
+		displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
 	});
 };
+
+
+
 
 // generate cards event
 cardsTrigger.addEventListener('click', function(e) {
