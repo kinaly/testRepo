@@ -126,6 +126,19 @@ function changeBgColor(el, bgColor) {
 
 
 
+// change text-color of an element or an array
+function changeTxtColor(el, textColor) {
+	if (Array.isArray(el) || NodeList.prototype.isPrototypeOf(el)) {
+		for (let i = 0; i < el.length; i++) {
+			el[i].style.color = textColor;
+		}
+	} else {
+		el.style.color = textColor;
+	}
+}
+
+
+
 
 
 
@@ -459,7 +472,11 @@ function setupCardsIn(parent) {
 // ////////////////
 const colorInputs = document.querySelectorAll('.color-input');
 const hueMatrixes = document.querySelectorAll('.hue-matrix');
-const coloredContainer = document.querySelectorAll('.tinted-section');
+const bgColor01Elements = document.querySelectorAll('.bg-color-01');
+const bgColor02Elements = document.querySelectorAll('.bg-color-02');
+const txtColor01Elements = document.querySelectorAll('.txt-color-01');
+const txtColor02Elements = document.querySelectorAll('.txt-color-02');
+
 const colourScalesBox = document.querySelectorAll('.colour-scales')[0];
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
 const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
@@ -475,7 +492,10 @@ let lastInputColorChange = colorInputs[0];
 
 displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
-changeBgColor(coloredContainer, colorInputs[0].value);
+changeBgColor(bgColor01Elements, colorInputs[0].value);
+changeBgColor(bgColor02Elements, colorInputs[1].value);
+changeTxtColor(txtColor01Elements, colorInputs[0].value);
+changeTxtColor(txtColor02Elements, colorInputs[1].value);
 
 setInputsContrast();
 
@@ -495,7 +515,10 @@ for (let i = 0; i < colorInputs.length; i++) {
 		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
 
 		if (chroma.valid(this.value)) {
-			changeBgColor(coloredContainer, chroma(colorInputs[0].value).hex());
+			changeBgColor(bgColor01Elements, chroma(colorInputs[0].value).hex());
+			changeBgColor(bgColor02Elements, chroma(colorInputs[1].value).hex());
+			changeTxtColor(txtColor01Elements, chroma(colorInputs[0].value).hex());
+			changeTxtColor(txtColor02Elements, chroma(colorInputs[1].value).hex());
 
 			const inputs = [].slice.call(matrixTypeInputs);
 			const checked = inputs.filter(function(input) {
