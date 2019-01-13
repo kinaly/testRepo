@@ -14,14 +14,18 @@
 .mixin-pill-default {
   display: inline-block;
   padding: 0.25em 1em;
-  background-color: var(--pill-bg-color, #d3e9f0);
+  background-color: var(--pill-bg-color, #D1E5EC);
   border-radius: 3px;
-  color: var(--pill-text-color, #286578);
+  color: var(--pill-text-color, #204C5A);
   cursor: pointer;
+}
+.mixin-pill-default:hover {
+  --pill-bg-color: #A3CBD8;
 }
 .mixin-pill-selected {
   --pill-bg-color: #e4bc4c;
   --pill-text-color: #1e1705;
+  cursor: default;
 }
 /* -------------------------------------------------------- */
 /*! ==normalize.css v3.0.2 | MIT License | git.io/normalize */
@@ -421,9 +425,15 @@ html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+p {
+  margin: 0 0 1em;
+}
 /* ----------------------------- */
 /* ==components                  */
 /* ----------------------------- */
+body {
+  background-color: #f0f0f0;
+}
 .padded-section {
   padding: 1em;
 }
@@ -437,6 +447,9 @@ html {
 /* Spacing */
 .u-mt-none {
   margin-top: 0;
+}
+.u-mb-none {
+  margin-bottom: 0;
 }
 .u-mb-medium {
   margin-bottom: 1em;
@@ -454,6 +467,17 @@ html {
 /* Typography */
 .u-txt-center {
   text-align: center;
+}
+/* Layout */
+.u-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.u-flex > * {
+  -webkit-box-flex: 50%;
+      -ms-flex: 50%;
+          flex: 50%;
 }
 
 /*# sourceMappingURL=../css/styles.css.map */

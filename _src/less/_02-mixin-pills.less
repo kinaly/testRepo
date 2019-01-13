@@ -3,15 +3,22 @@
 	
 	padding: 0.25em 1em;
 	
-	background-color: var(--pill-bg-color, #d3e9f0);
+	background-color: var(--pill-bg-color, #D1E5EC);
 	border-radius: 3px;
-	color: var(--pill-text-color, #286578);
+	color: var(--pill-text-color, #204C5A);
 	
 	cursor: pointer;
 	
+	&:hover {
+		--pill-bg-color: #A3CBD8;
+	}
+	
 }
+
+
 
 .mixin-pill-selected {
 	--pill-bg-color: #e4bc4c;
 	--pill-text-color: #1e1705;
+	cursor: default;
 }

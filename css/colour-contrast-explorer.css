@@ -14,14 +14,18 @@
 .mixin-pill-default {
   display: inline-block;
   padding: 0.25em 1em;
-  background-color: var(--pill-bg-color, #d3e9f0);
+  background-color: var(--pill-bg-color, #D1E5EC);
   border-radius: 3px;
-  color: var(--pill-text-color, #286578);
+  color: var(--pill-text-color, #204C5A);
   cursor: pointer;
+}
+.mixin-pill-default:hover {
+  --pill-bg-color: #A3CBD8;
 }
 .mixin-pill-selected {
   --pill-bg-color: #e4bc4c;
   --pill-text-color: #1e1705;
+  cursor: default;
 }
 /* -------------------------------------------------------- */
 /*! ==normalize.css v3.0.2 | MIT License | git.io/normalize */
@@ -421,6 +425,12 @@ html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+p {
+  margin: 0 0 1em;
+}
+body {
+  background-color: #f0f0f0;
+}
 .padded-section {
   padding: 1em;
 }
@@ -445,14 +455,18 @@ html {
 .radio-pill__label {
   display: inline-block;
   padding: 0.25em 1em;
-  background-color: var(--pill-bg-color, #d3e9f0);
+  background-color: var(--pill-bg-color, #D1E5EC);
   border-radius: 3px;
-  color: var(--pill-text-color, #286578);
+  color: var(--pill-text-color, #204C5A);
   cursor: pointer;
+}
+.radio-pill__label:hover {
+  --pill-bg-color: #A3CBD8;
 }
 .radio-pill__input:checked + .radio-pill__label {
   --pill-bg-color: #e4bc4c;
   --pill-text-color: #1e1705;
+  cursor: default;
 }
 .drawer {
   position: fixed;
@@ -541,10 +555,13 @@ html {
 .switchable-info__label {
   display: inline-block;
   padding: 0.25em 1em;
-  background-color: var(--pill-bg-color, #d3e9f0);
+  background-color: var(--pill-bg-color, #D1E5EC);
   border-radius: 3px;
-  color: var(--pill-text-color, #286578);
+  color: var(--pill-text-color, #204C5A);
   cursor: pointer;
+}
+.switchable-info__label:hover {
+  --pill-bg-color: #A3CBD8;
 }
 .switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hex"],
 .switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__hsl"],
@@ -552,6 +569,7 @@ html {
 .switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling .switchable-info__label[for="colour-info-switch__rgb"] {
   --pill-bg-color: #e4bc4c;
   --pill-text-color: #1e1705;
+  cursor: default;
 }
 .inputs-contrast-score.-reverse {
   color: #fff;
@@ -660,9 +678,9 @@ html {
   width: 100%;
 }
 .colour-scale__swatch {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  -webkit-box-flex: 6.5em;
+      -ms-flex: 6.5em;
+          flex: 6.5em;
   min-width: 0;
 }
 .colour-scale__swatch.-main {
@@ -678,11 +696,12 @@ html {
   cursor: pointer;
   border-radius: 50%;
   border: 1px solid #fff;
-  background-color: #fff;
+  background-color: #D9D9D9;
+  color: #fff;
+  dummy: dum;
 }
 .colour-scale__remove:hover {
   background-color: #a83e3c;
-  color: #fff;
 }
 .colour-scales-options {
   display: none;
@@ -813,6 +832,9 @@ html {
 .u-mt-none {
   margin-top: 0;
 }
+.u-mb-none {
+  margin-bottom: 0;
+}
 .u-mb-medium {
   margin-bottom: 1em;
 }
@@ -829,6 +851,17 @@ html {
 /* Typography */
 .u-txt-center {
   text-align: center;
+}
+/* Layout */
+.u-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.u-flex > * {
+  -webkit-box-flex: 50%;
+      -ms-flex: 50%;
+          flex: 50%;
 }
 
 /*# sourceMappingURL=../css/colour-contrast-explorer.css.map */
