@@ -647,6 +647,10 @@ body {
   height: 100%;
 }
 .swatch.-highlight .swatch__bg {
+  background-image: -o-linear-gradient(315deg, black, black 0.5em, transparent 0.5em, transparent);
+  background-image: linear-gradient(135deg, black, black 0.5em, transparent 0.5em, transparent);
+}
+.swatch.-reverse.-highlight .swatch__bg {
   background-image: -o-linear-gradient(315deg, white, white 0.5em, transparent 0.5em, transparent);
   background-image: linear-gradient(135deg, white, white 0.5em, transparent 0.5em, transparent);
 }

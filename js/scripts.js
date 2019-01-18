@@ -185,9 +185,9 @@ function insertSwatch(swatchDetails, container) {
 		swatch.classList.add('-reverse');
 	}
 
-	if (swatchDetails.contrastToWhite > 4.54 && swatchDetails.contrastToWhite < 4.66) {
-		swatch.classList.add('-highlight');
-	}
+	// if (swatchDetails.contrastToWhite > 4.54 && swatchDetails.contrastToWhite < 4.66) {
+	// 	swatch.classList.add('-highlight');
+	// }
 
 	container.appendChild(swatch);
 
@@ -302,8 +302,13 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 			for (let i = 0; i < currentRow.length; i++) {
 				const swatch = insertSwatch(currentRow[i], parent);
 
-				const constrastScore = swatch.querySelectorAll('.swatch__contrast')[0];
-				constrastScore.innerHTML = getContrast(currentRow[i].display.hex, chroma(secondaryColour));
+				const contrastScoreBox = swatch.querySelectorAll('.swatch__contrast')[0];
+				const contrastScore = getContrast(currentRow[i].display.hex, chroma(secondaryColour));
+				contrastScoreBox.innerHTML = contrastScore;
+
+				if (contrastScore >= contrastRange[0] && contrastScore <= contrastRange[1]) {
+					swatch.classList.add('-highlight');
+				}
 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
@@ -446,6 +451,29 @@ function setupCardsIn(parent) {
 
 
 
+// update colour matrix when input changes
+function updateHueMatrix() {
+	const inputs = [].slice.call(matrixTypeInputs);
+	const checked = inputs.filter(function(input) {
+		return input.checked == true;
+	});
+
+	let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
+
+	let contrastRange = [4.54,4.66];
+	let secondaryColour = '#ffffff';
+	let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
+
+	if (checked.length == 1 && checked[0].value == 'similar') {
+		contrastRange = [(contrastBase - .2), (contrastBase + .2)];
+		secondaryColour = otherInput.value;
+	}
+
+	displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, secondaryColour, contrastRange);
+}
+
+
+
 
 
 
@@ -469,9 +497,7 @@ const matrixTypeInputs = document.querySelectorAll('input[name="hue-matrix-type"
 
 let lastInputColorChange = colorInputs[0];
 
-
-
-displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
+updateHueMatrix();
 
 changeCssProperty(bgColor01Elements, 'backgroundColor', colorInputs[0].value);
 changeCssProperty(bgColor02Elements, 'backgroundColor', colorInputs[1].value);
@@ -493,29 +519,17 @@ for (let i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('change', function(e) {
 		lastInputColorChange = this;
 
-		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
-
 		if (chroma.valid(this.value)) {
 			changeCssProperty(bgColor01Elements, 'backgroundColor', chroma(colorInputs[0].value).hex());
 			changeCssProperty(bgColor02Elements, 'backgroundColor', chroma(colorInputs[1].value).hex());
 			changeCssProperty(txtColor01Elements, 'color', chroma(colorInputs[0].value).hex());
 			changeCssProperty(txtColor02Elements, 'color', chroma(colorInputs[1].value).hex());
 
-			const inputs = [].slice.call(matrixTypeInputs);
-			const checked = inputs.filter(function(input) {
-				return input.checked == true;
-			});
-
-			let contrastRange = [4.2, 5.2];
-			let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
-
-			if (checked.length == 1 && checked[0].value == 'similar') {
-				contrastRange = [(contrastBase - .3), (contrastBase + .3)];
-			}
-
-			displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
+			updateHueMatrix();
 
 			setInputsContrast();
+
+
 
 		}
 	});
@@ -523,41 +537,13 @@ for (let i = 0; i < colorInputs.length; i++) {
 	colorInputs[i].addEventListener('focus', function(e) {
 		lastInputColorChange = this;
 
-		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
-
-		const inputs = [].slice.call(matrixTypeInputs);
-		const checked = inputs.filter(function(input) {
-			return input.checked == true;
-		});
-
-		let contrastRange = [4.2, 5.2];
-		let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
-
-		if (checked.length == 1 && checked[0].value == 'similar') {
-			contrastRange = [(contrastBase - .3), (contrastBase + .3)];
-		}
-
-		displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
+		updateHueMatrix();
 	});
 };
 
 for (let i = 0; i < matrixTypeInputs.length; i++) {
 	matrixTypeInputs[i].addEventListener('change', function(e) {
-		const inputs = [].slice.call(matrixTypeInputs);
-		const checked = inputs.filter(function(input) {
-			return input.checked == true;
-		});
-
-		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
-
-		let contrastRange = [4.2, 5.2];
-		let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
-
-		if (checked.length == 1 && checked[0].value == 'similar') {
-			contrastRange = [(contrastBase - .3), (contrastBase + .3)];
-		}
-
-		displayHueMatrixIn(hueMatrixes[0], lastInputColorChange.value, otherInput.value, contrastRange);
+		updateHueMatrix();
 	});
 };
 
