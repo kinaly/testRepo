@@ -113,27 +113,14 @@ function colourScaleArray(colour, steps) {
 
 
 
-// change background-color of an element or an array
-function changeBgColor(el, bgColor) {
+// change CSS property of an element
+function changeCssProperty(el, property, value) {
 	if (Array.isArray(el) || NodeList.prototype.isPrototypeOf(el)) {
 		for (let i = 0; i < el.length; i++) {
-			el[i].style.backgroundColor = bgColor;
+			el[i].style[property] = value;
 		}
 	} else {
-		el.style.backgroundColor = bgColor;
-	}
-}
-
-
-
-// change text-color of an element or an array
-function changeTxtColor(el, textColor) {
-	if (Array.isArray(el) || NodeList.prototype.isPrototypeOf(el)) {
-		for (let i = 0; i < el.length; i++) {
-			el[i].style.color = textColor;
-		}
-	} else {
-		el.style.color = textColor;
+		el.style[property] = value;
 	}
 }
 
@@ -486,10 +473,10 @@ let lastInputColorChange = colorInputs[0];
 
 displayHueMatrixIn(hueMatrixes[0], colorInputs[0].value, colorInputs[1].value, [4.2,5.2]);
 
-changeBgColor(bgColor01Elements, colorInputs[0].value);
-changeBgColor(bgColor02Elements, colorInputs[1].value);
-changeTxtColor(txtColor01Elements, colorInputs[0].value);
-changeTxtColor(txtColor02Elements, colorInputs[1].value);
+changeCssProperty(bgColor01Elements, 'backgroundColor', colorInputs[0].value);
+changeCssProperty(bgColor02Elements, 'backgroundColor', colorInputs[1].value);
+changeCssProperty(txtColor01Elements, 'color', colorInputs[0].value);
+changeCssProperty(txtColor02Elements, 'color', colorInputs[1].value);
 
 setInputsContrast();
 
@@ -509,10 +496,10 @@ for (let i = 0; i < colorInputs.length; i++) {
 		let otherInput = (lastInputColorChange == colorInputs[0]) ? colorInputs[1] : colorInputs[0];
 
 		if (chroma.valid(this.value)) {
-			changeBgColor(bgColor01Elements, chroma(colorInputs[0].value).hex());
-			changeBgColor(bgColor02Elements, chroma(colorInputs[1].value).hex());
-			changeTxtColor(txtColor01Elements, chroma(colorInputs[0].value).hex());
-			changeTxtColor(txtColor02Elements, chroma(colorInputs[1].value).hex());
+			changeCssProperty(bgColor01Elements, 'backgroundColor', chroma(colorInputs[0].value).hex());
+			changeCssProperty(bgColor02Elements, 'backgroundColor', chroma(colorInputs[1].value).hex());
+			changeCssProperty(txtColor01Elements, 'color', chroma(colorInputs[0].value).hex());
+			changeCssProperty(txtColor02Elements, 'color', chroma(colorInputs[1].value).hex());
 
 			const inputs = [].slice.call(matrixTypeInputs);
 			const checked = inputs.filter(function(input) {
