@@ -2,6 +2,19 @@
 	position: relative;
 }
 
+.color-picks__inputs {
+	display: flex;
+	flex-wrap: wrap;
+	
+}
+
+.color-picks__card {
+	flex-grow: 1;
+	flex-basis: ~"calc((600px - 100%) * 999)";
+	
+	text-align: center;
+}
+
 .color-picks__contrast {
 	position: absolute;
 	top: 50%;
@@ -19,4 +32,12 @@
 	
 	text-align: center;
 	line-height: 3em;
+}
+
+.color-picks__card {
+	padding: 3em 2em;
+}
+
+.color-picks__text-sample {
+	font-size: 1.75em;
 }
