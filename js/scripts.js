@@ -349,12 +349,6 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 function setInputsContrast() {
 	const contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
 	contrastInputs.innerHTML = contrast;
-
-	if (contrast > 4.6) {
-		contrastInputs.classList.add('-reverse');
-	} else {
-		contrastInputs.classList.remove('-reverse');
-	}
 }
 
 
