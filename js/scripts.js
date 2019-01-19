@@ -185,10 +185,6 @@ function insertSwatch(swatchDetails, container) {
 		swatch.classList.add('-reverse');
 	}
 
-	// if (swatchDetails.contrastToWhite > 4.54 && swatchDetails.contrastToWhite < 4.66) {
-	// 	swatch.classList.add('-highlight');
-	// }
-
 	container.appendChild(swatch);
 
 	return swatch;
@@ -301,11 +297,13 @@ function addColourScale(parent, colour, steps) {
 // display a hue matrix based on a range of contrast ratio between 2 colours
 function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
-	const startingLum = getSwatchDetails(mainColour).hslLuminosity % 1;
+	const colourDetails = getSwatchDetails(mainColour);
 
-	const hue = isNaN(getSwatchDetails(mainColour).hslHue) ? 0 : getSwatchDetails(mainColour).hslHue;
+	const startingLum = colourDetails.hslLuminosity % 1;
+
+	const hue = isNaN(colourDetails.hslHue) ? 0 : colourDetails.hslHue;
 	
-	const saturation = getSwatchDetails(mainColour).hslSaturation;
+	const saturation = colourDetails.hslSaturation;
 	const saturationRange = [saturation - 5, saturation + 10 <= 100 ? saturation + 10 : 100];
 
 
@@ -342,7 +340,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 				swatch.classList.add('hue-matrix__swatch');
 				swatch.style.width = (100 / (saturationRange[1] - saturationRange[0])) + '%';
 
-				if (getSwatchDetails(mainColour).display.hex == currentRow[i].display.hex) {
+				if (colourDetails.display.hex == currentRow[i].display.hex) {
 					swatch.classList.add('-highlight');
 				}
 
