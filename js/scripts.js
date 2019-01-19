@@ -269,6 +269,35 @@ function displayScaleIn(parent, colour, steps) {
 
 
 
+// add colour scale
+function addColourScale(parent, colour, steps) {
+	let currentColours =[]
+
+	if (parent.childNodes.length > 0) {
+		for (let i = 0; i < parent.childNodes.length; i++) {
+			currentColours.push(chroma(parent.childNodes[i].dataset.colour).hex());
+		}
+	}
+
+	// check if new colour is part of current colours
+	const match = currentColours.filter(function(item) {
+		return chroma(item).hex() == chroma(colour).hex();
+	});
+
+	if (match.length < 1) {
+		const scale = addMarkup('div', 'colour-scale', null);
+
+		if (parent.childNodes.length > 0) {
+			parent.insertBefore(scale, parent.childNodes[0]);
+		} else {
+			parent.appendChild(scale);
+		}
+		displayScaleIn(scale, colour, steps);
+	}
+}
+
+
+
 // display a hue matrix based on a range of contrast ratio between 2 colours
 function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) {
 
@@ -319,13 +348,7 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 				// should probably be in a function
 				swatch.addEventListener('click', function(e) {
-					const scale = addMarkup('div', 'colour-scale', null);
-					if (colourScalesBox.childNodes.length > 0) {
-						colourScalesBox.insertBefore(scale, colourScalesBox.childNodes[0]);
-					} else {
-						colourScalesBox.appendChild(scale);
-					}
-					displayScaleIn(scale, this.dataset.hex);
+					addColourScale(colourScalesBox[0], this.dataset.hex, colourScalesStepsInput.value);
 				});
 			}
 		}
@@ -399,13 +422,9 @@ function updateColourScales(scalesParent, inputSteps) {
 			}
 
 			scalesParent.innerHTML = '';
-
-			for (let i = 0; i < currentColours.length; i++) {
-				const scale = addMarkup('div', 'colour-scale', null);
-				scalesParent.appendChild(scale);
-				displayScaleIn(scale, currentColours[i], adjustedSteps);
+			for (let i = currentColours.length - 1; i >= 0; i--) {
+				addColourScale(scalesParent, currentColours[i], adjustedSteps);
 			}
-
 		}
 	}
 }
@@ -506,6 +525,10 @@ changeCssProperty(txtColor02Elements, 'color', colorInputs[1].value);
 
 setInputsContrast();
 
+for (let i = 0; i < colorInputs.length; i++) {
+	addColourScale(colourScalesBox[0], colorInputs[i].value, colourScalesStepsInput.value);
+}
+
 
 
 
@@ -528,9 +551,6 @@ for (let i = 0; i < colorInputs.length; i++) {
 			updateHueMatrix();
 
 			setInputsContrast();
-
-
-
 		}
 	});
 
