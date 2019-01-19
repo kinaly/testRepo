@@ -347,7 +347,7 @@ function setInputsContrast() {
 
 // set up the colour switches in cards drawer
 function setupColourSwitch() {
-	const scales = colourScalesBox.childNodes;
+	const scales = colourScalesBox[0].childNodes;
 
 	const bgSwitch = cardsPage.querySelector('.colour-cards__bg-switch');
 	const colourSwitch = cardsPage.querySelector('.colour-cards__colour-switch');
@@ -486,7 +486,7 @@ const bgColor02Elements = document.querySelectorAll('.bg-color-02');
 const txtColor01Elements = document.querySelectorAll('.txt-color-01');
 const txtColor02Elements = document.querySelectorAll('.txt-color-02');
 
-const colourScalesBox = document.querySelectorAll('.colour-scales')[0];
+const colourScalesBox = document.querySelectorAll('.colour-scales');
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
 const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
 const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
@@ -558,5 +558,5 @@ cardsTrigger.addEventListener('click', function(e) {
 
 
 colourScalesStepsInput.addEventListener('change', function(e) {
-	updateColourScales(colourScalesBox, this.value);
+	updateColourScales(colourScalesBox[0], this.value);
 });
