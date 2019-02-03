@@ -608,6 +608,18 @@ body {
 .color-picks__text-sample {
   font-size: 1.75em;
 }
+.color-picks__add-scale {
+  margin: 0;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-transition: opacity 150ms ease-in-out;
+  -o-transition: opacity 150ms ease-in-out;
+  transition: opacity 150ms ease-in-out;
+}
+.color-picks__add-scale.-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
 .swatch {
   position: relative;
   z-index: 1;

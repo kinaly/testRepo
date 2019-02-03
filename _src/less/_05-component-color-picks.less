@@ -41,3 +41,17 @@
 .color-picks__text-sample {
 	font-size: 1.75em;
 }
+
+.color-picks__add-scale {
+	margin: 0;
+	
+	opacity: 1;
+	cursor: pointer;
+	
+	transition: opacity 150ms ease-in-out;
+	
+	&.-disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+}

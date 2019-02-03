@@ -260,6 +260,7 @@ function displayScaleIn(parent, colour, steps) {
 	remove.addEventListener('click', function(e) {
 		const el = this.parentNode;
 		el.parentNode.removeChild(el);
+		updateAddToneBtns();
 	});
 }
 
@@ -491,12 +492,37 @@ function updateHueMatrix() {
 
 
 
+function updateAddToneBtns() {
+	let currentColours =[]
+
+	if (colourScalesBox[0].childNodes.length > 0) {
+		for (let i = 0; i < colourScalesBox[0].childNodes.length; i++) {
+			currentColours.push(chroma(colourScalesBox[0].childNodes[i].dataset.colour).hex());
+		}
+	}
+
+	for (let i = addScaleBtns.length - 1; i >= 0; i--) {
+		// check if new colour is part of current colours
+		const match = currentColours.filter(function(item) {
+			return chroma(item).hex() == chroma(colorInputs[i].value).hex();
+		});
+
+		if (match.length > 0) {
+			addScaleBtns[i].classList.add('-disabled');
+		} else {
+			addScaleBtns[i].classList.remove('-disabled');
+		}
+	}
+}
+
+
+
 
 
 
 // Initialise stuff
 // ////////////////
-const colorInputs = document.querySelectorAll('.color-input');
+const colorInputs = document.querySelectorAll('.color-picks__input');
 const hueMatrixes = document.querySelectorAll('.hue-matrix');
 const bgColor01Elements = document.querySelectorAll('.bg-color-01');
 const bgColor02Elements = document.querySelectorAll('.bg-color-02');
@@ -505,6 +531,7 @@ const txtColor02Elements = document.querySelectorAll('.txt-color-02');
 
 const colourScalesBox = document.querySelectorAll('.colour-scales');
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
+const addScaleBtns = document.querySelectorAll('.color-picks__add-scale');
 const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
 const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
@@ -523,9 +550,7 @@ changeCssProperty(txtColor02Elements, 'color', colorInputs[1].value);
 
 setInputsContrast();
 
-for (let i = 0; i < colorInputs.length; i++) {
-	addColourScale(colourScalesBox[0], colorInputs[i].value, colourScalesStepsInput.value);
-}
+updateAddToneBtns();
 
 
 
@@ -549,6 +574,8 @@ for (let i = 0; i < colorInputs.length; i++) {
 			updateHueMatrix();
 
 			setInputsContrast();
+
+			updateAddToneBtns();
 		}
 	});
 
@@ -562,6 +589,13 @@ for (let i = 0; i < colorInputs.length; i++) {
 for (let i = 0; i < matrixTypeInputs.length; i++) {
 	matrixTypeInputs[i].addEventListener('change', function(e) {
 		updateHueMatrix();
+	});
+};
+
+for (let i = 0; i < addScaleBtns.length; i++) {
+	addScaleBtns[i].addEventListener('click', function(e) {
+		addColourScale(colourScalesBox[0], colorInputs[i].value, colourScalesStepsInput.value);
+		updateAddToneBtns();
 	});
 };
 
