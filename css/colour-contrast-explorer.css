@@ -738,6 +738,9 @@ body {
       -ms-flex-positive: 1.25;
           flex-grow: 1.25;
 }
+.colour-scale__swatch .swatch__contrast {
+  display: none;
+}
 .colour-scale__remove {
   -ms-flex-item-align: center;
       align-self: center;
@@ -780,6 +783,10 @@ body {
 .hue-matrix__swatch {
   font-size: 80%;
   cursor: pointer;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  min-width: 7em;
   -webkit-transition: -webkit-transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
   transition: -webkit-transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
   -o-transition: transform 200ms ease-in-out, transform 200ms ease-in-out;
