@@ -496,7 +496,7 @@ function updateHueMatrix() {
 
 // Initialise stuff
 // ////////////////
-const colorInputs = document.querySelectorAll('.color-input');
+const colorInputs = document.querySelectorAll('.color-picks__input');
 const hueMatrixes = document.querySelectorAll('.hue-matrix');
 const bgColor01Elements = document.querySelectorAll('.bg-color-01');
 const bgColor02Elements = document.querySelectorAll('.bg-color-02');
