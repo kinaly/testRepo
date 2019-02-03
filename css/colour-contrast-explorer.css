@@ -878,6 +878,25 @@ body {
   font-weight: bold;
   text-transform: uppercase;
 }
+.steps-input {
+  display: inline-block;
+}
+.steps-input__matrix {
+  letter-spacing: -0.25em;
+  d: d;
+}
+.steps-input__matrix > * {
+  display: inline-block;
+  width: 2em;
+  max-width: 10%;
+  letter-spacing: normal;
+  text-align: center;
+  background-color: lightblue;
+}
+.steps-input__range {
+  width: 94%;
+  margin-left: 3%;
+}
 /* -------------------------------------- */
 /* ==for the dirty code                   */
 /* -------------------------------------- */
