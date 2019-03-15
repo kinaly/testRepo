@@ -1,0 +1,109 @@
+{% extends "colour-contrast-explorer.html" %}
+
+{% block title %}Colour Contrast Explorer{% endblock %}
+
+{% block content %}
+<main class="main-content">
+	<!-- Inputs must stay at the top level -->
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__hex" class="switchable-info__input" checked="checked">
+
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsl" class="switchable-info__input">
+
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__rgb" class="switchable-info__input">
+
+	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsv" class="switchable-info__input">
+	
+	<div class="switchable-info__input-sibling color-picks">
+		<div class="color-picks__inputs">
+			<div class="color-picks__card bg-color-01">
+				<p class="color-picks__text-sample txt-color-02">		The quick brown fox jumps over the lazy dog
+				</p>
+				
+				<input type="text" class="color-picks__input jscolor u-mb-medium" value="#204C5A">
+
+				<p class="color-picks__add-scale">Add tone scale</p>
+			</div>
+
+			<div class="color-picks__card bg-color-02">
+				<p class="color-picks__text-sample txt-color-01">The quick brown fox jumps over the lazy dog</p>
+				
+				<input type="text" class="color-picks__input jscolor u-mb-medium" value="#ffffff">
+
+				<p class="color-picks__add-scale">Add tone scale</p>
+			</div>
+		</div>
+
+		<span class="color-picks__contrast inputs-contrast-score">Contrast Score</span>
+
+	</div>
+
+
+
+	<div class="switchable-info__input-sibling">
+
+		<div class="padded-section">
+			<h2>Colour variations</h2>
+			<div class="u-inbl">
+				<label class="radio-pill">
+					<input type="radio" name="hue-matrix-type" value="Adjusted" checked="checked" class="radio-pill__input">
+					<span class="radio-pill__label">Adjusted for contrast</span>
+				</label>
+
+				<label class="radio-pill">
+					<input type="radio" name="hue-matrix-type" value="similar" class="radio-pill__input">
+					<span class="radio-pill__label">Similar</span>
+				</label>
+			</div>
+
+			/ 
+
+			<ul class="u-unstyled-list u-inbl">
+				<li class="u-inbl"><label for="colour-info-switch__hex" class="switchable-info__label">Hex</label></li>
+				<li class="u-inbl"><label for="colour-info-switch__rgb" class="switchable-info__label">RGB</label></li>
+				<li class="u-inbl"><label for="colour-info-switch__hsl" class="switchable-info__label">HSL</label></li>
+				<li class="u-inbl"><label for="colour-info-switch__hsv" class="switchable-info__label">HSV</label></li>
+			</ul>
+		</div>
+
+
+
+		<section class="hue-matrix padded-section"></section>
+	</div>
+	
+	<div class="switchable-info__input-sibling colour-scales-section">
+		<section class="colour-scales"></section>
+
+		<div class="padded-section colour-scales-options -pre">
+			<h2>Tone scales</h2>
+			<div class="steps-input">
+				<div class="steps-input__matrix">
+					<span>3</span>
+					<span>5</span>
+					<span>7</span>
+					<span>9</span>
+					<span>11</span>
+					<span>13</span>
+					<span>15</span>
+					<span>17</span>
+					<span>19</span>
+					<span>21</span>
+				</div>
+				<input type="range" min="3" max="21" step="2" class="colour-scale-steps-input steps-input__range" value="9">
+			</div>
+			
+		</div>
+		
+		<div class="padded-section colour-scales-options u-txt-center">
+			<a href="#cards-drawer" class="btn js-toggle-drawer js-set-cards">View cards</a>
+		</div>
+	</div>
+	
+
+
+	<!-- <div class="reference switchable-info__input-sibling"></div> -->
+
+	<!-- <div class="hue-matrix switchable-info__input-sibling"></div> -->
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+.color-picks {
+	position: relative;
+}
+
+.color-picks__inputs {
+	display: flex;
+	flex-wrap: wrap;
+	
+}
+
+.color-picks__card {
+	flex-grow: 1;
+	flex-basis: ~"calc((600px - 100%) * 999)";
+	
+	text-align: center;
+}
+
+.color-picks__contrast {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	
+	width: 3em;
+	height: 3em;
+	
+	margin: -1.5em 0 0 -1.5em;
+	
+	
+	border-radius: 50%;
+	background-color: #000;
+	color: #fff;
+	
+	text-align: center;
+	line-height: 3em;
+}
+
+.color-picks__card {
+	padding: 3em 2em;
+}
+
+.color-picks__text-sample {
+	font-size: 1.75em;
+}
+
+.color-picks__add-scale {
+	margin: 0;
+	
+	opacity: 1;
+	cursor: pointer;
+	
+	transition: opacity 150ms ease-in-out;
+	
+	&.-disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+}

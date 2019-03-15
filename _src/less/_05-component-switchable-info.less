@@ -1,0 +1,37 @@
+.switchable-info__input {
+	.mixin-hidden-input();
+}
+
+.switchable-info__item {
+	display: none;
+	
+	&.-hex {
+		text-transform: uppercase;
+	}
+	
+	.switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling &.-hex,
+	
+	.switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling &.-hsl,
+	
+	.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling &.-hsv,
+
+	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &.-rgb {
+		display: block;
+	}
+}
+
+
+.switchable-info__label {
+	.mixin-pill-default();
+	
+	.switchable-info__input:checked[id="colour-info-switch__hex"] ~ .switchable-info__input-sibling &[for="colour-info-switch__hex"],
+	
+	.switchable-info__input:checked[id="colour-info-switch__hsl"] ~ .switchable-info__input-sibling &[for="colour-info-switch__hsl"],
+	
+	.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling &[for="colour-info-switch__hsv"],
+
+	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &[for="colour-info-switch__rgb"] {
+		
+		.mixin-pill-selected();
+	}
+}

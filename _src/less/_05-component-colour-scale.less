@@ -1,0 +1,55 @@
+.colour-scales-section {
+	display: flex;
+	flex-direction: column;
+}
+
+.colour-scale {
+	display: flex;
+	width: 100%;
+}
+
+.colour-scale__swatch {
+	flex: 6.5em;
+	min-width: 0; // to prevent overflow
+		
+	&.-main {
+		flex-grow: 1.25;
+	}
+
+	& .swatch__contrast {
+		display: none;
+	}
+}
+
+.colour-scale__remove {
+	align-self: center;
+	
+	margin: 1em;
+	padding: 0.5em 0.8125em;
+
+	cursor: pointer;
+	
+	border-radius: 50%;
+	border: 1px solid #fff;
+	background-color: #D9D9D9;
+	color: #fff;
+	dummy: dum;
+	
+	&:hover {
+		background-color: #a83e3c;
+	}
+}
+
+
+
+.colour-scales-options {
+	display: none;
+		
+	&.-pre {
+		order: -10;
+	}
+	
+	.colour-scales:not(:empty) ~ & {
+		display: block;
+	}
+}

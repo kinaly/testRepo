@@ -1,0 +1,11 @@
+.radio-pill__input {
+	.mixin-hidden-input();
+}
+
+.radio-pill__label {
+	.mixin-pill-default();
+	
+	.radio-pill__input:checked + & {
+		.mixin-pill-selected();
+	}
+}

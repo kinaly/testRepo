@@ -1,0 +1,25 @@
+.hue-matrix {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	
+	&:not(:last-child) {
+		margin-bottom: 1em;
+	}
+}
+
+.hue-matrix__swatch {
+	font-size: 80%;
+	cursor: pointer;
+	
+	flex-grow: 1;
+	min-width: 7em;
+	
+	transition: transform 200ms ease-in-out, transform 200ms ease-in-out;
+	
+	&:hover {
+		transform: scale(1.25);
+		z-index: 200;
+		outline: 1px solid #fff;
+	}
+}
