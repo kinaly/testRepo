@@ -1,4 +1,2 @@
-# A place to host some experiments
-
-## Colour Contrast Explorer
-An experiment to generate colour combinations with enough contrast.
+Source files for kinaly.github.io
+Built with Nunjucks, Gulp and Buddy.Works
