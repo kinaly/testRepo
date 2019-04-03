@@ -363,6 +363,12 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 function setInputsContrast() {
 	const contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
 	contrastInputs.innerHTML = contrast;
+
+	if (contrast < 4.5) {
+		contrastInputsRating.innerHTML = '👎';
+	} else {
+		contrastInputsRating.innerHTML = '👍';
+	}
 }
 
 
@@ -533,6 +539,7 @@ const colourScalesBox = document.querySelectorAll('.colour-scales');
 const colourScalesStepsInput = document.querySelector('.colour-scale-steps-input');
 const addScaleBtns = document.querySelectorAll('.color-picks__add-scale');
 const contrastInputs = document.querySelectorAll('.inputs-contrast-score')[0];
+const contrastInputsRating = document.querySelectorAll('.inputs-contrast-score-rating')[0];
 const drawerTriggers = document.querySelectorAll('.js-toggle-drawer');
 const cardsTrigger = document.querySelectorAll('.js-set-cards')[0];
 const cardsPage = document.getElementById('cards-drawer');
