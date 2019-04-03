@@ -3,12 +3,13 @@
 	
 	padding: 0.5em 1em;
 	
+	border: none;
 	border-radius: 3px;
 	background-color: #e4bc4c;
 	color: #1e1705;
 	text-decoration: none;
 	
-	&:hover {
+	&:not(.-disabled):hover {
 		background-color: lighten(#e4bc4c, 5%);
 	}
 }
