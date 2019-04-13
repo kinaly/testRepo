@@ -15,7 +15,13 @@
 	
 	.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling &.-hsv,
 
-	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &.-rgb {
+	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &.-rgb,
+
+	.switchable-info__input:checked[id="contrast-against-black"] ~ .switchable-info__input-sibling &.-black,
+
+	.switchable-info__input:checked[id="contrast-against-white"] ~ .switchable-info__input-sibling &.-white,
+
+	.switchable-info__input:checked[id="contrast-against-colour"] ~ .switchable-info__input-sibling &.-colour {
 		display: block;
 	}
 }
@@ -30,7 +36,13 @@
 	
 	.switchable-info__input:checked[id="colour-info-switch__hsv"] ~ .switchable-info__input-sibling &[for="colour-info-switch__hsv"],
 
-	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &[for="colour-info-switch__rgb"] {
+	.switchable-info__input:checked[id="colour-info-switch__rgb"] ~ .switchable-info__input-sibling &[for="colour-info-switch__rgb"],
+
+	.switchable-info__input:checked[id="contrast-against-black"] ~ .switchable-info__input-sibling &[for="contrast-against-black"],
+
+	.switchable-info__input:checked[id="contrast-against-white"] ~ .switchable-info__input-sibling &[for="contrast-against-white"],
+
+	.switchable-info__input:checked[id="contrast-against-colour"] ~ .switchable-info__input-sibling &[for="contrast-against-colour"] {
 		
 		.mixin-pill-selected();
 	}

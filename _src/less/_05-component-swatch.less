@@ -46,3 +46,26 @@
 		background-image: linear-gradient(135deg, white, white .5em, transparent .5em, transparent);
 	}
 }
+
+.swatch__contrast {
+	&:before {
+		content: "";
+		display: inline-block;
+		width: .75em;
+		height: .75em;
+		border-radius: 1em;
+		margin-right: .25em;
+	}
+
+	&.-white {
+		&:before {
+			background-color: #fff;
+		}
+	}
+
+	&.-black {
+		&:before {
+			background-color: #000;
+		}
+	}
+}

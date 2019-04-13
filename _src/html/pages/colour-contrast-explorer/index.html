@@ -6,20 +6,21 @@
 <main class="main-content">
 	<!-- Inputs must stay at the top level -->
 	<input type="radio" name="colour-info-switch" id="colour-info-switch__hex" class="switchable-info__input" checked="checked">
-
 	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsl" class="switchable-info__input">
-
 	<input type="radio" name="colour-info-switch" id="colour-info-switch__rgb" class="switchable-info__input">
-
 	<input type="radio" name="colour-info-switch" id="colour-info-switch__hsv" class="switchable-info__input">
+
+	<input type="radio" name="contrast-against" id="contrast-against-white" class="switchable-info__input" checked="checked">
+	<input type="radio" name="contrast-against" id="contrast-against-black" class="switchable-info__input">
 	
 	<div class="switchable-info__input-sibling color-picks">
 		<div class="color-picks__inputs">
 			<div class="color-picks__card bg-color-01">
-				<p class="color-picks__text-sample txt-color-02">		The quick brown fox jumps over the lazy dog
+				<p class="color-picks__text-sample txt-color-02">The quick brown fox jumps over the lazy dog
 				</p>
 				
-				<input type="text" class="color-picks__input jscolor u-mb-medium" value="#204C5A">
+				<label for="colorInput01" class="txt-color-02 u-bl">Colour #1</label>
+				<input id="colorInput01" type="text" class="color-picks__input jscolor u-mb-medium" value="#204C5A">
 				
 				<div>
 					<button class="btn color-picks__add-scale">Add tone scale</button>
@@ -29,7 +30,8 @@
 			<div class="color-picks__card bg-color-02">
 				<p class="color-picks__text-sample txt-color-01">The quick brown fox jumps over the lazy dog</p>
 				
-				<input type="text" class="color-picks__input jscolor u-mb-medium" value="#ffffff">
+				<label for="colorInput02" class="txt-color-01 u-bl">Colour #2</label>
+				<input type="text" class="color-picks__input jscolor u-mb-medium" value="#E5E5E5">
 				
 				<div>
 					<button class="btn color-picks__add-scale">Add tone scale</button>
@@ -50,17 +52,21 @@
 
 		<div class="padded-section">
 			<h2>Colour variations</h2>
-			<div class="u-inbl">
-				<label class="radio-pill">
-					<input type="radio" name="hue-matrix-type" value="Adjusted" checked="checked" class="radio-pill__input">
-					<span class="radio-pill__label">Adjusted for contrast</span>
-				</label>
+			<ul class="u-unstyled-list u-inbl">
+				<li class="u-inbl">
+					<label class="radio-pill">
+						<input type="radio" name="hue-matrix-type" value="Adjusted" checked="checked" class="radio-pill__input">
+						<span class="radio-pill__label">Adjusted for contrast</span>
+					</label>
+				</li>
 
-				<label class="radio-pill">
-					<input type="radio" name="hue-matrix-type" value="similar" class="radio-pill__input">
-					<span class="radio-pill__label">Similar</span>
-				</label>
-			</div>
+				<li class="u-inbl">
+					<label class="radio-pill">
+						<input type="radio" name="hue-matrix-type" value="similar" class="radio-pill__input">
+						<span class="radio-pill__label">Similar</span>
+					</label>
+				</li>
+			</ul>
 
 			/ 
 
@@ -69,6 +75,13 @@
 				<li class="u-inbl"><label for="colour-info-switch__rgb" class="switchable-info__label">RGB</label></li>
 				<li class="u-inbl"><label for="colour-info-switch__hsl" class="switchable-info__label">HSL</label></li>
 				<li class="u-inbl"><label for="colour-info-switch__hsv" class="switchable-info__label">HSV</label></li>
+			</ul>
+
+			/
+
+			<ul class="u-unstyled-list u-inbl">
+				<li class="u-inbl"><label for="contrast-against-white" class="switchable-info__label">White</label></li>
+				<li class="u-inbl"><label for="contrast-against-black" class="switchable-info__label">Black</label></li>
 			</ul>
 		</div>
 
