@@ -37,10 +37,26 @@ function newChromaScale(color01,color02,colorSteps, mode) {
 
 
 
-// Get the contrast ratio between 2 colours rounded at 2 decimals
-function getContrast(color01, color02) {
+// Get an object containing the contrast ratio between 2 colours rounded at 2 decimals and the rating of the score
+function getContrastScore(color01, color02) {
 	const contrast = Math.floor(chroma.contrast(color01, color02) * 100) / 100;
-	return contrast;
+	let rating;
+
+	if (contrast < 3) {
+		rating = '👎';
+	} else if (contrast >= 3 && contrast < 4.5) {
+		rating = 'AA Large';
+	} else if (contrast >= 4.5 && contrast < 7) {
+		rating = 'AA';
+	} else {
+		rating = 'AAA'
+	}
+
+	const contrastScore = {
+		'score': contrast,
+		'rating': rating
+	}
+	return contrastScore;
 }
 
 
@@ -65,7 +81,8 @@ function getSwatchDetails(colour) {
 		'hslHue': chroma(colour).get('hsl.h'),
 		'hslSaturation': chroma(colour).get('hsl.s') * 100,
 		'hslLuminosity': chroma(colour).get('hsl.l') * 100,
-		'contrastToWhite': getContrast(colour, '#ffffff')
+		'contrastToWhite': getContrastScore(colour, '#ffffff').score,
+		'contrastToBlack': getContrastScore(colour, '#000000').score
 	};
 
 	return swatchDetails;
@@ -220,11 +237,13 @@ function insertRadioSwatch(colour, name) {
 
 // insert a colour card
 function insertColourCard(bgColour, textColour) {
+	const contrast = getContrastScore(bgColour, textColour);
 	let colourCardInfo = {
 		'bgColour': bgColour,
 		'textColour': textColour,
-		'contrastRatio': getContrast(bgColour, textColour),
-		'additionalClasses': getContrast(bgColour, textColour) < 4.5 ? '-optional' : ''
+		'contrastRatio': contrast.score,
+		'contrastRating': contrast.rating,
+		'additionalClasses': contrast.score < 3 ? '-optional' : ''
 	}
 
 	let colourCardTemplate = env.render('colour-card.html', {colourCard: colourCardInfo});
@@ -322,19 +341,19 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 
 
 		const match = currentRow.filter(function(item) {
-			const contrast = getContrast(item.display.hex, secondaryColour);
-			return contrast > contrastRange[0] && contrast < contrastRange[1];
+			const contrast = getContrastScore(item.display.hex, secondaryColour);
+			return contrast.score > contrastRange[0] && contrast.score < contrastRange[1];
 		});
 
 		if (match.length > 0) {
 			for (let i = 0; i < currentRow.length; i++) {
 				const swatch = insertSwatch(currentRow[i], parent);
 
-				const contrastScoreBox = swatch.querySelectorAll('.swatch__contrast')[0];
-				const contrastScore = getContrast(currentRow[i].display.hex, chroma(secondaryColour));
-				contrastScoreBox.innerHTML = contrastScore;
+				// const contrastScoreBox = swatch.querySelectorAll('.swatch__contrast')[0];
+				const contrastScore = getContrastScore(currentRow[i].display.hex, chroma('#ffffff'));
+				// contrastScoreBox.innerHTML = contrastScore.score;
 
-				if (contrastScore >= contrastRange[0] && contrastScore <= contrastRange[1]) {
+				if (contrastScore.score >= contrastRange[0] && contrastScore.score <= contrastRange[1]) {
 					swatch.classList.add('-highlight');
 				}
 
@@ -361,14 +380,9 @@ function displayHueMatrixIn(parent, mainColour, secondaryColour, contrastRange) 
 // set the contrast score between both inputs
 // could totally be more re-usable
 function setInputsContrast() {
-	const contrast = getContrast(colorInputs[0].value, colorInputs[1].value);
-	contrastInputs.innerHTML = contrast;
-
-	if (contrast < 4.5) {
-		contrastInputsRating.innerHTML = '👎';
-	} else {
-		contrastInputsRating.innerHTML = '👍';
-	}
+	const contrast = getContrastScore(colorInputs[0].value, colorInputs[1].value);
+	contrastInputs.innerHTML = contrast.score;
+	contrastInputsRating.innerHTML = contrast.rating;
 }
 
 
@@ -486,10 +500,10 @@ function updateHueMatrix() {
 
 	let contrastRange = [4.54,4.66];
 	let secondaryColour = '#ffffff';
-	let contrastBase = getContrast(chroma(lastInputColorChange.value), chroma(otherInput.value));
+	let contrastBase = getContrastScore(chroma(lastInputColorChange.value), chroma(otherInput.value));
 
 	if (checked.length == 1 && checked[0].value == 'similar') {
-		contrastRange = [(contrastBase - .2), (contrastBase + .2)];
+		contrastRange = [(contrastBase.score - .2), (contrastBase.score + .2)];
 		secondaryColour = otherInput.value;
 	}
 
