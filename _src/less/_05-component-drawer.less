@@ -4,7 +4,7 @@
 	right: 0;
 	z-index: 5;
 	
-	width: 90%;
+	width: var(--drawer-width, 90%);
 	height: 100%;
 	
 	transform: translateX(120%);
@@ -20,6 +20,10 @@
 		transform: translateX(0);
 	}
 }
+
+// .drawer__header {
+// 	flex: 0 0 auto;
+// }
 
 .drawer__frame {
 	position: relative;

@@ -1,20 +1,22 @@
 <div class="drawers">
-	<div class="drawer" id="cards-drawer">
-		<div class="drawer__frame">
-			<a href="#cards-drawer" class="btn drawer__close js-toggle-drawer">close</a>
+	<div class="drawer colour-cards-drawer" id="cards-drawer">
+		<div class="drawer__frame">			
 			<div class="drawer__content colour-cards">
-				<input type="checkbox" id="colour-cards__show-all-trigger" class="colour-cards__toggle-input">
+				<input type="checkbox" id="colour-cards__show-all-trigger" class="colour-cards__toggle-input"><!-- needs to stay on top level -->
 				
-				<section class="colour-cards__options padded-section">
+				<header class="colour-cards__options padded-section">
+					<a href="#cards-drawer" class="btn drawer__close js-toggle-drawer">close</a>
 					<div class="colour-cards__switch colour-cards__colour-switch"></div>
 					<div class="colour-cards__switch colour-cards__bg-switch u-mb-medium"></div>
 					
 					<div>
 						<label for="colour-cards__show-all-trigger"><span class="colour-cards__toggle-label">Include failed ratio combinations</span></label>
 					</div>
-				</section>
+				</header>
 				
-				<section class="colour-cards__box padded-section">Cards here</section>
+				<div class="colour-cards__wrapper">
+					<section class="colour-cards__box padded-section">Cards here</section>
+				</div>
 				
 			</div>
 		</div>

@@ -1,3 +1,25 @@
+.colour-cards-drawer {
+	--drawer-width: 98%;
+}
+
+.colour-cards {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.colour-cards__options {
+	flex: 0 0 auto;
+}
+
+.colour-cards__wrapper {
+	flex: 1 1 auto;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+
+
 .colour-cards__toggle-input {
 	position: absolute;
 	top: -100vh; left: -100vw;
@@ -37,6 +59,7 @@
 	
 	&:first-child {
 		padding-top: 0;
+		padding-right: 5em;
 	}
 }
 
@@ -60,7 +83,7 @@
 	&.-optional {
 		display: none;
 		
-		.colour-cards__toggle-input:checked ~ .colour-cards__box & {
+		.colour-cards__toggle-input:checked ~ .colour-cards__wrapper & {
 			display: block;
 		}
 	}
